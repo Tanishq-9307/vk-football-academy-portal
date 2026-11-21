@@ -1,0 +1,359 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* VKFA brand — taken from the academy's Instagram (@vk_football_academy): red & white */
+  --color-brand-50: #fef2f3;
+  --color-brand-100: #fde3e5;
+  --color-brand-200: #fbcdd1;
+  --color-brand-300: #f7a6ad;
+  --color-brand-400: #f0727d;
+  --color-brand-500: #e30613;
+  --color-brand-600: #c90512;
+  --color-brand-700: #a80510;
+  --color-brand-800: #8a0712;
+  --color-brand-900: #6e0a12;
+
+  /* Dark surfaces — layered, with depth. v2 uses gradients and hairlines
+     instead of flat charcoal so the UI reads as a modern sports product. */
+  --color-charcoal-950: #0a0a0c;
+  --color-charcoal-900: #121215;
+  --color-charcoal-850: #18181c;
+  --color-charcoal-800: #1e1e24;
+  --color-charcoal-700: #2b2b33;
+  --color-charcoal-600: #3d3d48;
+  --color-charcoal-500: #5a5a68;
+
+  /* Gold — premium elements only */
+  --color-gold-300: #e8c85a;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a8861d;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -12px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 20px 44px -16px rgba(0, 0, 0, 0.8);
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float-slow: float-slow 7s ease-in-out infinite;
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-spin-slower: spin 14s linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-charcoal-950);
+  color: #f4f4f5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+::selection {
+  background: var(--color-brand-500);
+  color: #fff;
+}
+
+/* Visible keyboard focus everywhere — gold ring, never removed. */
+:focus-visible {
+  outline: 2px solid var(--color-gold-400);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Thin scrollbars for portal tables */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal-600);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer components {
+  /* ---- Surfaces ------------------------------------------------------- */
+  .card {
+    border-radius: 20px;
+    border: 1px solid var(--color-charcoal-700);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 28%),
+      var(--color-charcoal-850);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-deep {
+    border-radius: 20px;
+    border: 1px solid var(--color-charcoal-700);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 30%),
+      var(--color-charcoal-900);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Gold hairline on top — use on featured / hero cards. */
+  .card-gold {
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background:
+      linear-gradient(180deg, rgba(212, 175, 55, 0.09), rgba(212, 175, 55, 0) 32%),
+      var(--color-charcoal-850);
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-hover {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(227, 6, 19, 0.55);
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* ---- Typography helpers --------------------------------------------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold-400);
+  }
+  .eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 1.75rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-brand-500), var(--color-gold-400));
+    border-radius: 2px;
+  }
+
+  /* Giant outlined background word (hero decoration). */
+  .ghost-word {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.07);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Diagonal pitch-line texture for hero / section bands. */
+  .pitch-lines {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.035) 0,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px,
+      transparent 14px
+    );
+  }
+
+  /* ---- Forms ------------------------------------------------------------ */
+  .field {
+    margin-top: 0.5rem;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--color-charcoal-600);
+    background: var(--color-charcoal-900);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.875rem;
+    color: #fff;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+  .field::placeholder {
+    color: #71717a;
+  }
+  .field:hover {
+    border-color: var(--color-charcoal-500);
+  }
+  .field:focus {
+    border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.25);
+    outline: none;
+  }
+  .field:disabled {
+    opacity: 0.6;
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.25);
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+  }
+
+  .field-error {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: #fda4af;
+  }
+
+  /* Grouped form sections (PlanForm, admin forms). */
+  .form-section {
+    border-radius: 20px;
+    border: 1px solid var(--color-charcoal-700);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 30%),
+      var(--color-charcoal-850);
+    padding: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .form-section {
+      padding: 1.5rem;
+    }
+  }
+  .form-section > legend,
+  .form-section-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  /* ---- Tables ----------------------------------------------------------- */
+  .table-shell {
+    overflow-x: auto;
+    border-radius: 20px;
+    border: 1px solid var(--color-charcoal-700);
+    background: var(--color-charcoal-900);
+    box-shadow: var(--shadow-card);
+  }
+  .table-shell table {
+    width: 100%;
+    min-width: 560px;
+    text-align: left;
+    font-size: 0.875rem;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table-shell thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--color-charcoal-850);
+    padding: 0.75rem 1rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    border-bottom: 1px solid var(--color-charcoal-700);
+    white-space: nowrap;
+  }
+  .table-shell tbody td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+  }
+  .table-shell tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .table-shell tbody tr {
+    transition: background 0.15s ease;
+  }
+  .table-shell tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  /* ---- Skeleton shimmer --------------------------------------------------- */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--color-charcoal-800);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
