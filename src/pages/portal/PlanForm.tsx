@@ -176,7 +176,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
 
       <form
         onSubmit={handleSubmit}
-        className="mt-6 card p-6"
+        className="mt-6 stadium-card p-6"
       >
         {error && (
           <div className="mb-4">
@@ -193,7 +193,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
               value={sessionId}
               onChange={(e) => setSessionId(e.target.value)}
               disabled={!!existing}
-              className="field disabled:opacity-60"
+              className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none disabled:opacity-60"
             >
               <option value="">Select a session</option>
               {sessions.map((s) => (
@@ -218,7 +218,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. U14 — Passing under pressure"
-              className="field"
+              className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
             />
           </label>
         </div>
@@ -232,7 +232,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="One-line summary of what this session is about."
-            className="field"
+            className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
           />
         </label>
 
@@ -250,7 +250,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
                 value={content[f.key] ?? ''}
                 onChange={(e) => setField(f.key, e.target.value)}
                 placeholder={f.hint}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
           ))}

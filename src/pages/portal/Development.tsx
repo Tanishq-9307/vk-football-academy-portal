@@ -264,7 +264,7 @@ export default function Development() {
             })
           }
           placeholder="—"
-          className="field"
+          className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
         />
       </label>
     )
@@ -298,7 +298,7 @@ export default function Development() {
           <select
             value={playerId}
             onChange={(e) => setPlayerId(e.target.value)}
-            className="mt-2 w-full max-w-md field"
+            className="mt-2 w-full max-w-md rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
           >
             {players.map((p) => (
               <option key={p.id} value={p.id}>
@@ -313,7 +313,7 @@ export default function Development() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -343,7 +343,7 @@ export default function Development() {
                 type="date"
                 value={form.assessment_date}
                 onChange={(e) => setForm({ ...form, assessment_date: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -353,7 +353,7 @@ export default function Development() {
               <select
                 value={form.training_session_id}
                 onChange={(e) => setForm({ ...form, training_session_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 <option value="">No session linked</option>
                 {sessions.map((s) => (
@@ -390,7 +390,7 @@ export default function Development() {
                   rows={2}
                   value={form[key]}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
                 />
               </label>
             ))}
@@ -455,7 +455,7 @@ export default function Development() {
 
           <div className="lg:col-span-3">
             {selected ? (
-              <div className="card p-6">
+              <div className="stadium-card p-6">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">

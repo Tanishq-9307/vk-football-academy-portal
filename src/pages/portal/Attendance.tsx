@@ -292,7 +292,7 @@ export default function Attendance() {
         Mark attendance per session, and review each player's record over time.
       </p>
 
-      <div className="mt-6 flex gap-2 card-deep p-1.5">
+      <div className="mt-6 flex gap-2 stadium-card p-1.5">
         <button
           type="button"
           onClick={() => switchTab('mark')}
@@ -332,7 +332,7 @@ export default function Attendance() {
                   { replace: true },
                 )
               }}
-              className="field"
+              className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
             >
               {sessions.length === 0 && <option value="">No sessions yet</option>}
               {sessions.map((s) => (
@@ -393,7 +393,7 @@ export default function Attendance() {
                   return (
                     <li
                       key={p.id}
-                      className="card p-4"
+                      className="stadium-card p-4"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-3">
                         <span className="flex items-center gap-2 font-medium text-white">
@@ -535,7 +535,7 @@ export default function Attendance() {
                 Players under {LOW_ATTENDANCE_THRESHOLD}% over the selected
                 period are flagged — they may need a check-in from the coach.
               </p>
-              <div className="mt-4 table-shell">
+              <div className="mt-4 overflow-x-auto rounded-2xl border border-charcoal-700">
                 <table className="w-full min-w-96 text-left text-sm">
                   <thead>
                     <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
@@ -547,7 +547,7 @@ export default function Attendance() {
                       <th className="px-4 py-3">Attendance</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-charcoal-700">
+                  <tbody className="divide-y divide-charcoal-700 bg-charcoal-850">
                     {playerSummary.map(({ player, stats }) => {
                       const low =
                         stats.total >= 3 && stats.pct < LOW_ATTENDANCE_THRESHOLD
@@ -592,7 +592,7 @@ export default function Attendance() {
                   return (
                     <li
                       key={s.id}
-                      className="card p-4"
+                      className="stadium-card p-4"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <p className="font-semibold text-white">

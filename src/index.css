@@ -16,59 +16,19 @@
   --color-brand-800: #8a0712;
   --color-brand-900: #6e0a12;
 
-  /* Dark surfaces — layered, with depth. v2 uses gradients and hairlines
-     instead of flat charcoal so the UI reads as a modern sports product. */
-  --color-charcoal-950: #0a0a0c;
-  --color-charcoal-900: #121215;
-  --color-charcoal-850: #18181c;
-  --color-charcoal-800: #1e1e24;
-  --color-charcoal-700: #2b2b33;
-  --color-charcoal-600: #3d3d48;
-  --color-charcoal-500: #5a5a68;
+  /* Dark charcoal surfaces (premium European academy aesthetic) */
+  --color-charcoal-950: #0c0c0e;
+  --color-charcoal-900: #141417;
+  --color-charcoal-850: #1a1a1e;
+  --color-charcoal-800: #1f1f24;
+  --color-charcoal-700: #2a2a31;
+  --color-charcoal-600: #3a3a44;
+  --color-charcoal-500: #55555f;
 
   /* Gold — premium elements only */
-  --color-gold-300: #e8c85a;
   --color-gold-400: #d4af37;
   --color-gold-500: #c9a227;
   --color-gold-600: #a8861d;
-
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -12px rgba(0, 0, 0, 0.7);
-  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 20px 44px -16px rgba(0, 0, 0, 0.8);
-
-  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-float-slow: float-slow 7s ease-in-out infinite;
-  --animate-marquee: marquee 28s linear infinite;
-  --animate-spin-slower: spin 14s linear infinite;
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float-slow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 html {
@@ -80,24 +40,11 @@ body {
   background-color: var(--color-charcoal-950);
   color: #f4f4f5;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
 .font-display {
   font-family: var(--font-display);
   letter-spacing: 0.02em;
-}
-
-::selection {
-  background: var(--color-brand-500);
-  color: #fff;
-}
-
-/* Visible keyboard focus everywhere — gold ring, never removed. */
-:focus-visible {
-  outline: 2px solid var(--color-gold-400);
-  outline-offset: 2px;
-  border-radius: 6px;
 }
 
 /* Thin scrollbars for portal tables */
@@ -113,247 +60,156 @@ body {
   background: transparent;
 }
 
-@layer components {
-  /* ---- Surfaces ------------------------------------------------------- */
-  .card {
-    border-radius: 20px;
-    border: 1px solid var(--color-charcoal-700);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 28%),
-      var(--color-charcoal-850);
-    box-shadow: var(--shadow-card);
-  }
+::selection {
+  background: var(--color-brand-500);
+  color: #fff;
+}
 
-  .card-deep {
-    border-radius: 20px;
-    border: 1px solid var(--color-charcoal-700);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 30%),
-      var(--color-charcoal-900);
-    box-shadow: var(--shadow-card);
-  }
+:focus-visible {
+  outline: 2px solid var(--color-gold-400);
+  outline-offset: 2px;
+}
 
-  /* Gold hairline on top — use on featured / hero cards. */
-  .card-gold {
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    background:
-      linear-gradient(180deg, rgba(212, 175, 55, 0.09), rgba(212, 175, 55, 0) 32%),
-      var(--color-charcoal-850);
-    border-radius: 20px;
-    box-shadow: var(--shadow-card);
-  }
+/* ------------------------- Variant B: STADIUM theme ------------------------ */
+/* Night-match look: floodlit dark surfaces, red accents, gold numerals,
+   angled cuts, oversized display type. Shared by every page via these
+   classes so the whole app reads as one stadium, not a dashboard. */
 
-  .card-hover {
-    transition:
-      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.35s ease,
-      box-shadow 0.35s ease;
-  }
-  .card-hover:hover {
-    transform: translateY(-4px);
-    border-color: rgba(227, 6, 19, 0.55);
-    box-shadow: var(--shadow-lift);
-  }
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.28);
+}
 
-  /* ---- Typography helpers --------------------------------------------- */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-gold-400);
-  }
-  .eyebrow::before {
-    content: "";
-    display: inline-block;
-    width: 1.75rem;
-    height: 2px;
-    background: linear-gradient(90deg, var(--color-brand-500), var(--color-gold-400));
-    border-radius: 2px;
-  }
+.text-outline-red {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(227, 6, 19, 0.65);
+}
 
-  /* Giant outlined background word (hero decoration). */
-  .ghost-word {
-    font-family: var(--font-display);
-    font-weight: 700;
-    text-transform: uppercase;
-    line-height: 0.8;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.07);
-    user-select: none;
-    pointer-events: none;
-  }
+/* Stadium card — dark surface, red top edge, gold corner tick */
+.stadium-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-charcoal-700);
+  border-radius: 1rem;
+  background:
+    linear-gradient(180deg, rgba(227, 6, 19, 0.08) 0, transparent 56px),
+    var(--color-charcoal-850);
+}
+.stadium-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-brand-500), var(--color-gold-500));
+}
+.stadium-card-lg {
+  border-radius: 1.5rem;
+}
 
-  /* Diagonal pitch-line texture for hero / section bands. */
-  .pitch-lines {
-    background-image: repeating-linear-gradient(
-      -45deg,
-      rgba(255, 255, 255, 0.035) 0,
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px,
-      transparent 14px
-    );
-  }
+/* Angled (slashed) button — match-day ticket feel */
+.btn-angle {
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  border-radius: 0;
+}
+.btn-angle-outline {
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  border-radius: 0;
+}
 
-  /* ---- Forms ------------------------------------------------------------ */
-  .field {
-    margin-top: 0.5rem;
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid var(--color-charcoal-600);
-    background: var(--color-charcoal-900);
-    padding: 0.65rem 0.9rem;
-    font-size: 0.875rem;
-    color: #fff;
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease,
-      background 0.2s ease;
-  }
-  .field::placeholder {
-    color: #71717a;
-  }
-  .field:hover {
-    border-color: var(--color-charcoal-500);
-  }
-  .field:focus {
-    border-color: var(--color-brand-500);
-    box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.25);
-    outline: none;
-  }
-  .field:disabled {
-    opacity: 0.6;
-  }
-  .field[aria-invalid="true"] {
-    border-color: var(--color-brand-500);
-    box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.25);
-  }
+/* Subtle mowing stripes, like a pitch under floodlights */
+.pitch-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.025) 0 90px,
+    transparent 90px 180px
+  );
+}
 
-  .field-label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #a1a1aa;
-  }
+/* Diagonal section edges */
+.diag-top {
+  clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+}
+.diag-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
+}
 
-  .field-error {
-    margin-top: 0.35rem;
-    font-size: 0.8rem;
-    color: #fda4af;
-  }
+/* Scroll reveal (paired with the Reveal component) */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-  /* Grouped form sections (PlanForm, admin forms). */
-  .form-section {
-    border-radius: 20px;
-    border: 1px solid var(--color-charcoal-700);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 30%),
-      var(--color-charcoal-850);
-    padding: 1.25rem;
-  }
-  @media (min-width: 640px) {
-    .form-section {
-      padding: 1.5rem;
-    }
-  }
-  .form-section > legend,
-  .form-section-title {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #fff;
-  }
+/* 3D tilt cards (paired with the TiltCard component) */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out, border-color 0.25s ease;
+  will-change: transform;
+}
+.tilt-inner {
+  transform: translateZ(28px);
+}
 
-  /* ---- Tables ----------------------------------------------------------- */
-  .table-shell {
-    overflow-x: auto;
-    border-radius: 20px;
-    border: 1px solid var(--color-charcoal-700);
-    background: var(--color-charcoal-900);
-    box-shadow: var(--shadow-card);
+/* Ticker / marquee */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
   }
-  .table-shell table {
-    width: 100%;
-    min-width: 560px;
-    text-align: left;
-    font-size: 0.875rem;
-    border-collapse: separate;
-    border-spacing: 0;
+  to {
+    transform: translateX(-50%);
   }
-  .table-shell thead th {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: var(--color-charcoal-850);
-    padding: 0.75rem 1rem;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #a1a1aa;
-    border-bottom: 1px solid var(--color-charcoal-700);
-    white-space: nowrap;
-  }
-  .table-shell tbody td {
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    vertical-align: middle;
-  }
-  .table-shell tbody tr:last-child td {
-    border-bottom: none;
-  }
-  .table-shell tbody tr {
-    transition: background 0.15s ease;
-  }
-  .table-shell tbody tr:hover {
-    background: rgba(255, 255, 255, 0.025);
-  }
+}
+.ticker-track {
+  animation: ticker-scroll 28s linear infinite;
+}
 
-  /* ---- Skeleton shimmer --------------------------------------------------- */
-  .skeleton {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    background: var(--color-charcoal-800);
+/* Gentle float for decorative footballs */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-6deg);
   }
-  .skeleton::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.06),
-      transparent
-    );
-    animation: shimmer 1.6s infinite;
+  50% {
+    transform: translateY(-14px) rotate(6deg);
   }
-  @keyframes shimmer {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(100%);
-    }
+}
+.float-y {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+/* Floodlight shimmer on the hero glow */
+@keyframes flood-glow {
+  0%,
+  100% {
+    opacity: 0.55;
   }
+  50% {
+    opacity: 0.9;
+  }
+}
+.flood-glow {
+  animation: flood-glow 5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .ticker-track,
+  .float-y,
+  .flood-glow {
+    animation: none;
+  }
+  .tilt {
+    transition: none;
   }
 }

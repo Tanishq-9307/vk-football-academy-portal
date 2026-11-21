@@ -158,7 +158,7 @@ export default function ParentDashboard() {
                 <Link
                   key={child.id}
                   to={`/portal/children/${child.id}`}
-                  className="card card-hover p-5"
+                  className="stadium-card p-5 transition hover:border-brand-500/60"
                 >
                   <p className="flex items-center gap-2 font-semibold text-white">
                     <Baby className="h-4 w-4 text-brand-400" />
@@ -202,7 +202,7 @@ export default function ParentDashboard() {
             {upcoming.map((s) => (
               <li
                 key={s.id}
-                className="flex flex-wrap items-center justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 stadium-card px-5 py-4"
               >
                 <div>
                   <p className="font-semibold text-white">
@@ -226,7 +226,7 @@ export default function ParentDashboard() {
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           to="/portal/matches"
-          className="flex items-start gap-4 card card-hover p-5"
+          className="flex items-start gap-4 stadium-card p-5 transition hover:border-brand-500/60"
         >
           <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <Trophy className="h-5 w-5" />
@@ -240,7 +240,7 @@ export default function ParentDashboard() {
         </Link>
         <Link
           to="/portal/fees"
-          className="flex items-start gap-4 card card-hover p-5"
+          className="flex items-start gap-4 stadium-card p-5 transition hover:border-brand-500/60"
         >
           <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <Wallet className="h-5 w-5" />
@@ -254,7 +254,7 @@ export default function ParentDashboard() {
         </Link>
         <Link
           to="/portal/announcements"
-          className="flex items-start gap-4 card card-hover p-5"
+          className="flex items-start gap-4 stadium-card p-5 transition hover:border-brand-500/60"
         >
           <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <Megaphone className="h-5 w-5" />
@@ -285,7 +285,7 @@ export default function ParentDashboard() {
             {announcements.map((a) => (
               <li
                 key={a.id}
-                className="card px-5 py-4"
+                className="stadium-card px-5 py-4"
               >
                 <p className="flex items-center gap-2 font-semibold text-white">
                   <CalendarDays className="h-4 w-4 text-brand-400" />

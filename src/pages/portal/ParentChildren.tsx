@@ -99,7 +99,7 @@ export default function ParentChildren() {
               <li key={s.child.id}>
                 <Link
                   to={`/portal/children/${s.child.id}`}
-                  className="block card card-hover px-5 py-4"
+                  className="block stadium-card px-5 py-4 transition hover:border-brand-500/60"
                 >
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
                     <Baby className="h-4 w-4 text-brand-400" />

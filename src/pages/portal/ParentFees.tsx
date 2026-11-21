@@ -90,7 +90,7 @@ export default function ParentFees() {
             <select
               value={childFilter}
               onChange={(e) => setChildFilter(e.target.value)}
-              className="mt-2 w-full max-w-xs field"
+              className="mt-2 w-full max-w-xs rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
             >
               <option value="all">All children</option>
               {children.map((c) => (
@@ -121,7 +121,7 @@ export default function ParentFees() {
             return (
               <div
                 key={r.id}
-                className="card px-5 py-4"
+                className="stadium-card px-5 py-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>

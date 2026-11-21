@@ -217,7 +217,7 @@ export default function AdminTeams() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -247,7 +247,7 @@ export default function AdminTeams() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. U14 Reds"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -257,7 +257,7 @@ export default function AdminTeams() {
               <select
                 value={ageGroup}
                 onChange={(e) => setAgeGroup(e.target.value as AgeGroup)}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 {AGE_GROUPS.map((g) => (
                   <option key={g} value={g}>
@@ -273,7 +273,7 @@ export default function AdminTeams() {
               <select
                 value={coachId}
                 onChange={(e) => setCoachId(e.target.value)}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 <option value="">No coach assigned</option>
                 {coaches.map((c) => (
@@ -307,7 +307,7 @@ export default function AdminTeams() {
           {teams.map((t) => (
             <li
               key={t.id}
-              className="card px-5 py-4"
+              className="stadium-card px-5 py-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -359,7 +359,7 @@ export default function AdminTeams() {
           aria-modal="true"
           aria-label={`Assign players to ${assignTeam.name}`}
         >
-          <div className="card-deep max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl p-6 shadow-2xl sm:rounded-2xl">
+          <div className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-charcoal-600 bg-charcoal-850 p-6 shadow-2xl sm:rounded-2xl">
             <div className="flex items-center justify-between">
               <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
                 Players — {assignTeam.name}
@@ -378,7 +378,7 @@ export default function AdminTeams() {
               value={assignSearch}
               onChange={(e) => setAssignSearch(e.target.value)}
               placeholder="Search players…"
-              className="mt-4 field"
+              className="mt-4 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
             />
             <p className="mt-3 text-sm text-zinc-400">
               {assignedIds.size} selected

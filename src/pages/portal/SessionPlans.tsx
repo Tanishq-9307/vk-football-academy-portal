@@ -136,7 +136,7 @@ export function SessionPlansList() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search plans…"
-          className="min-w-56 flex-1 field"
+          className="min-w-56 flex-1 rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
         />
         <select
           value={teamFilter}
@@ -173,7 +173,7 @@ export function SessionPlansList() {
           {filtered.map((p) => (
             <li
               key={p.id}
-              className="card px-5 py-4"
+              className="stadium-card px-5 py-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <Link to={`/portal/plans/${p.id}`} className="min-w-0 flex-1">
@@ -359,7 +359,7 @@ export function PlanView() {
           {filledSections.map((f) => (
             <section
               key={f.key}
-              className="card p-5"
+              className="stadium-card p-5"
             >
               <h2 className="text-xs font-semibold tracking-widest text-brand-400 uppercase">
                 {f.label}

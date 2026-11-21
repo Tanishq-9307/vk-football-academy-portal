@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import {
   Baby,
   CalendarDays,
@@ -26,27 +26,26 @@ interface NavItem {
   /** Roles that see this item. Omitted = every signed-in role. */
   roles?: Role[]
   adminOnly?: boolean
-  section: 'portal' | 'admin'
 }
 
 const NAV: NavItem[] = [
-  { to: '/portal', label: 'Dashboard', icon: LayoutDashboard, section: 'portal' },
-  { to: '/portal/teams', label: 'My Teams', icon: Users, roles: ['admin', 'coach'], section: 'portal' },
-  { to: '/portal/sessions', label: 'Training Sessions', icon: CalendarDays, roles: ['admin', 'coach'], section: 'portal' },
-  { to: '/portal/plans', label: 'Session Plans', icon: ClipboardList, roles: ['admin', 'coach'], section: 'portal' },
-  { to: '/portal/attendance', label: 'Attendance', icon: ShieldCheck, roles: ['admin', 'coach'], section: 'portal' },
-  { to: '/portal/matches', label: 'Matches', icon: Trophy, section: 'portal' },
-  { to: '/portal/development', label: 'Player Development', icon: TrendingUp, roles: ['admin', 'coach'], section: 'portal' },
-  { to: '/portal/announcements', label: 'Announcements', icon: Megaphone, section: 'portal' },
-  { to: '/portal/children', label: 'My Children', icon: Baby, roles: ['parent'], section: 'portal' },
-  { to: '/portal/fees', label: 'Fees', icon: Wallet, roles: ['parent'], section: 'portal' },
-  { to: '/portal/admin/overview', label: 'Admin Overview', icon: LayoutDashboard, adminOnly: true, section: 'admin' },
-  { to: '/portal/admin/coaches', label: 'Manage Coaches', icon: Users, adminOnly: true, section: 'admin' },
-  { to: '/portal/admin/teams', label: 'Manage Teams', icon: Users, adminOnly: true, section: 'admin' },
-  { to: '/portal/admin/players', label: 'Manage Players', icon: Users, adminOnly: true, section: 'admin' },
-  { to: '/portal/admin/parents', label: 'Manage Parents', icon: Baby, adminOnly: true, section: 'admin' },
-  { to: '/portal/admin/fees', label: 'Manage Fees', icon: Wallet, adminOnly: true, section: 'admin' },
-  { to: '/portal/admin/announcements', label: 'Manage Announcements', icon: Megaphone, adminOnly: true, section: 'admin' },
+  { to: '/portal', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/portal/teams', label: 'My Teams', icon: Users, roles: ['admin', 'coach'] },
+  { to: '/portal/sessions', label: 'Training Sessions', icon: CalendarDays, roles: ['admin', 'coach'] },
+  { to: '/portal/plans', label: 'Session Plans', icon: ClipboardList, roles: ['admin', 'coach'] },
+  { to: '/portal/attendance', label: 'Attendance', icon: ShieldCheck, roles: ['admin', 'coach'] },
+  { to: '/portal/matches', label: 'Matches', icon: Trophy },
+  { to: '/portal/development', label: 'Player Development', icon: TrendingUp, roles: ['admin', 'coach'] },
+  { to: '/portal/announcements', label: 'Announcements', icon: Megaphone },
+  { to: '/portal/children', label: 'My Children', icon: Baby, roles: ['parent'] },
+  { to: '/portal/fees', label: 'Fees', icon: Wallet, roles: ['parent'] },
+  { to: '/portal/admin/overview', label: 'Admin Overview', icon: LayoutDashboard, adminOnly: true },
+  { to: '/portal/admin/coaches', label: 'Manage Coaches', icon: Users, adminOnly: true },
+  { to: '/portal/admin/teams', label: 'Manage Teams', icon: Users, adminOnly: true },
+  { to: '/portal/admin/players', label: 'Manage Players', icon: Users, adminOnly: true },
+  { to: '/portal/admin/parents', label: 'Manage Parents', icon: Baby, adminOnly: true },
+  { to: '/portal/admin/fees', label: 'Manage Fees', icon: Wallet, adminOnly: true },
+  { to: '/portal/admin/announcements', label: 'Manage Announcements', icon: Megaphone, adminOnly: true },
 ]
 
 const ROLE_LABEL: Record<Role, string> = {
@@ -55,18 +54,9 @@ const ROLE_LABEL: Record<Role, string> = {
   parent: 'Parent',
 }
 
-function initials(name?: string | null, email?: string | null): string {
-  const src = (name ?? '').trim() || (email ?? '')
-  const parts = src.split(/[\s@._-]+/).filter(Boolean)
-  const first = parts[0]?.[0] ?? 'V'
-  const second = parts[1]?.[0] ?? ''
-  return (first + second).toUpperCase()
-}
-
 export default function PortalLayout() {
   const { profile, coach, signOut } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const isAdmin = profile?.role === 'admin'
 
@@ -75,68 +65,34 @@ export default function PortalLayout() {
       (!i.adminOnly || isAdmin) &&
       (!i.roles || (profile && i.roles.includes(profile.role))),
   )
-  const portalItems = items.filter((i) => i.section === 'portal')
-  const adminItems = items.filter((i) => i.section === 'admin')
-  const current =
-    [...items].sort((a, b) => b.to.length - a.to.length).find(
-      (i) =>
-        location.pathname === i.to ||
-        (i.to !== '/portal' && location.pathname.startsWith(`${i.to}/`)),
-    ) ?? items[0]
-  const pageTitle = current?.label ?? 'Dashboard'
 
   async function handleSignOut() {
     await signOut()
     navigate('/', { replace: true })
   }
 
-  const renderGroup = (label: string, group: NavItem[]) => (
-    <div key={label}>
-      <p className="px-3 pt-4 pb-2 text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">
-        {label}
-      </p>
-      <div className="flex flex-col gap-0.5">
-        {group.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === '/portal'}
-            onClick={() => setMenuOpen(false)}
-            className={({ isActive }) =>
-              `group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
-                isActive
-                  ? 'bg-gradient-to-r from-brand-500/20 to-transparent text-white'
-                  : 'text-zinc-400 hover:bg-charcoal-800 hover:text-white'
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {isActive && (
-                  <span
-                    className="absolute top-1/2 left-0 h-6 w-1 -translate-y-1/2 rounded-r-full bg-gradient-to-b from-brand-500 to-gold-400"
-                    aria-hidden="true"
-                  />
-                )}
-                <item.icon
-                  className={`h-4.5 w-4.5 shrink-0 transition ${
-                    isActive ? 'text-gold-400' : 'text-zinc-500 group-hover:text-zinc-300'
-                  }`}
-                />
-                {item.label}
-              </>
-            )}
-          </NavLink>
-        ))}
-      </div>
-    </div>
-  )
-
   const navContent = (
-    <nav className="flex flex-col gap-1 p-3" aria-label="Portal">
-      {renderGroup('Portal', portalItems)}
-      {adminItems.length > 0 && renderGroup('Admin', adminItems)}
-      <div className="mt-4 border-t border-charcoal-700/70 pt-3">
+    <nav className="flex flex-col gap-1 p-2" aria-label="Portal">
+      {items.map((item) => (
+        <NavLink
+          key={item.to}
+          to={item.to}
+          end={item.to === '/portal'}
+          onClick={() => setMenuOpen(false)}
+          title={item.label}
+          className={({ isActive }) =>
+            `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
+              isActive
+                ? 'bg-brand-500/15 text-white'
+                : 'text-zinc-400 hover:bg-charcoal-800 hover:text-white'
+            }`
+          }
+        >
+          <item.icon className="h-4.5 w-4.5 shrink-0 text-brand-400" />
+          {item.label}
+        </NavLink>
+      ))}
+      <div className="mt-4 border-t border-charcoal-700 pt-4">
         <Link
           to="/"
           onClick={() => setMenuOpen(false)}
@@ -147,7 +103,7 @@ export default function PortalLayout() {
         <button
           type="button"
           onClick={handleSignOut}
-          className="mt-0.5 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-400 transition hover:bg-charcoal-800 hover:text-white"
+          className="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-400 transition hover:bg-charcoal-800 hover:text-white"
         >
           <LogOut className="h-4.5 w-4.5 shrink-0" />
           Sign out
@@ -156,46 +112,98 @@ export default function PortalLayout() {
     </nav>
   )
 
+  /** Compact icon rail (desktop): icon + tiny label, red active block. */
+  const railContent = (
+    <nav className="flex flex-col items-center gap-1 p-2" aria-label="Portal">
+      {items.map((item) => (
+        <NavLink
+          key={item.to}
+          to={item.to}
+          end={item.to === '/portal'}
+          title={item.label}
+          className={({ isActive }) =>
+            `flex w-full flex-col items-center gap-1 rounded-xl px-1 py-2.5 text-[10px] font-semibold tracking-wide uppercase transition ${
+              isActive
+                ? 'bg-brand-500 text-white shadow-lg shadow-brand-500/25'
+                : 'text-zinc-400 hover:bg-charcoal-800 hover:text-white'
+            }`
+          }
+        >
+          <item.icon className="h-5 w-5 shrink-0" />
+          <span className="max-w-full truncate px-0.5 text-center leading-tight">
+            {item.label.split(' ')[0]}
+          </span>
+        </NavLink>
+      ))}
+      <div className="mt-3 w-full border-t border-charcoal-700 pt-3">
+        <Link
+          to="/"
+          title="Public website"
+          className="flex w-full flex-col items-center gap-1 rounded-xl px-1 py-2.5 text-[10px] font-semibold tracking-wide text-zinc-400 uppercase transition hover:bg-charcoal-800 hover:text-white"
+        >
+          ← Site
+        </Link>
+        <button
+          type="button"
+          onClick={handleSignOut}
+          title="Sign out"
+          className="mt-1 flex w-full flex-col items-center gap-1 rounded-xl px-1 py-2.5 text-[10px] font-semibold tracking-wide text-zinc-400 uppercase transition hover:bg-charcoal-800 hover:text-white"
+        >
+          <LogOut className="h-5 w-5 shrink-0" />
+          Exit
+        </button>
+      </div>
+    </nav>
+  )
+
   return (
     <div className="min-h-screen bg-charcoal-950">
-      {/* Top bar — page title + user chip */}
-      <header className="sticky top-0 z-40 border-b border-charcoal-800/80 bg-charcoal-950/90 backdrop-blur">
-        <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <div className="flex min-w-0 items-center gap-3">
-            <Link to="/portal" className="flex shrink-0 items-center gap-2.5" aria-label="VKFA Portal home">
-              <Logo size={34} />
-              <span className="hidden leading-none sm:block">
-                <span className="font-display block text-base font-semibold tracking-wide text-white">
-                  VKFA PORTAL
-                </span>
-                <span className="mt-0.5 block text-[10px] font-semibold tracking-[0.18em] text-gold-400 uppercase">
-                  Develop · Compete · Excel
-                </span>
+      {/* Top bar — match-day header */}
+      <header className="sticky top-0 z-40 border-b border-charcoal-800 bg-charcoal-950/95 backdrop-blur">
+        <div className="h-1 bg-gradient-to-r from-brand-500 via-brand-500 to-gold-500" />
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <Link to="/portal" className="flex items-center gap-3">
+            <Logo size={36} />
+            <span className="leading-none">
+              <span className="font-display block text-base font-semibold tracking-wide text-white">
+                VKFA PORTAL
               </span>
-            </Link>
-            <span className="hidden h-6 w-px bg-charcoal-700 md:block" aria-hidden="true" />
-            <h1 className="font-display hidden truncate text-xl font-semibold tracking-wide text-white uppercase md:block">
-              {pageTitle}
-            </h1>
-          </div>
+              <span className="mt-0.5 block text-[11px] font-medium tracking-widest text-zinc-400 uppercase">
+                {profile ? ROLE_LABEL[profile.role] : ''}
+                {coach ? ` · ${coach.full_name}` : ''}
+              </span>
+            </span>
+          </Link>
+          {/* Horizontal nav (wide screens) */}
+          <nav
+            className="hidden items-center gap-0.5 overflow-x-auto xl:flex"
+            aria-label="Portal"
+          >
+            {items.slice(0, 8).map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === '/portal'}
+                title={item.label}
+                className={({ isActive }) =>
+                  `font-display rounded-lg px-2.5 py-2 text-[13px] font-semibold tracking-[0.12em] whitespace-nowrap uppercase transition ${
+                    isActive
+                      ? 'bg-brand-500/15 text-white'
+                      : 'text-zinc-400 hover:bg-charcoal-800 hover:text-white'
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
           <div className="flex items-center gap-3">
-            <span className="hidden items-center gap-2.5 rounded-full border border-charcoal-700 bg-charcoal-850 py-1.5 pr-3 pl-1.5 sm:flex">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-[11px] font-bold text-white">
-                {initials(profile?.full_name, profile?.email)}
-              </span>
-              <span className="leading-none">
-                <span className="block max-w-36 truncate text-sm font-semibold text-white">
-                  {profile?.full_name ?? profile?.email ?? ''}
-                </span>
-                <span className="mt-0.5 block text-[10px] font-semibold tracking-widest text-gold-400 uppercase">
-                  {profile ? ROLE_LABEL[profile.role] : ''}
-                  {coach ? ` · ${coach.full_name}` : ''}
-                </span>
-              </span>
+            <span className="hidden rounded-full border border-gold-600/50 bg-gold-500/10 px-3 py-1.5 text-xs font-semibold text-gold-400 sm:block">
+              {profile?.full_name ?? profile?.email}
             </span>
             <button
               type="button"
-              className="rounded-xl p-2 text-zinc-300 transition hover:bg-charcoal-800 lg:hidden"
+              className="rounded-lg p-2 text-zinc-300 hover:bg-charcoal-800 lg:hidden"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
@@ -204,18 +212,14 @@ export default function PortalLayout() {
             </button>
           </div>
         </div>
-        {menuOpen && (
-          <div className="max-h-[70vh] overflow-y-auto border-t border-charcoal-800 lg:hidden">
-            {navContent}
-          </div>
-        )}
+        {menuOpen && <div className="border-t border-charcoal-800 lg:hidden">{navContent}</div>}
       </header>
 
-      <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 sm:px-6">
-        <aside className="hidden w-64 shrink-0 lg:block">
-          <div className="card sticky top-[76px] overflow-hidden rounded-[24px]">
-            <div className="h-1 bg-gradient-to-r from-brand-500 via-brand-600 to-gold-400" aria-hidden="true" />
-            {navContent}
+      <div className="pitch-stripes mx-auto flex max-w-[90rem] gap-5 px-4 py-6 sm:px-6">
+        {/* Compact icon rail — desktop only */}
+        <aside className="hidden w-[4.5rem] shrink-0 lg:block">
+          <div className="sticky top-24 stadium-card">
+            {railContent}
           </div>
         </aside>
         <main className="min-w-0 flex-1">

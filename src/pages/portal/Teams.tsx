@@ -124,7 +124,7 @@ export default function Teams() {
             return (
               <article
                 key={team.id}
-                className="overflow-hidden card"
+                className="overflow-hidden stadium-card"
               >
                 <header className="flex flex-wrap items-center justify-between gap-3 border-b border-charcoal-700 px-5 py-4">
                   <div>
@@ -228,7 +228,7 @@ export default function Teams() {
                           <li key={s.id}>
                             <Link
                               to={`/portal/sessions/${s.id}`}
-                              className="card card-hover flex items-center justify-between gap-3 px-3.5 py-2.5 text-sm"
+                              className="flex items-center justify-between gap-3 rounded-xl border border-charcoal-700 bg-charcoal-900 px-3.5 py-2.5 text-sm transition hover:border-brand-500/60"
                             >
                               <span className="flex items-center gap-2 text-zinc-200">
                                 <CalendarDays className="h-4 w-4 shrink-0 text-brand-400" />

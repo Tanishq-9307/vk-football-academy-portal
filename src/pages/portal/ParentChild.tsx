@@ -206,7 +206,7 @@ export default function ParentChild() {
             {upcoming.map((s) => (
               <li
                 key={s.id}
-                className="card px-5 py-4"
+                className="stadium-card px-5 py-4"
               >
                 <p className="font-semibold text-white">
                   {s.title ?? `${s.category} session`}
@@ -235,7 +235,7 @@ export default function ParentChild() {
             />
           </div>
         ) : (
-          <div className="mt-4 table-shell">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-charcoal-700">
             <table className="w-full min-w-[520px] text-left text-sm">
               <thead>
                 <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
@@ -243,7 +243,7 @@ export default function ParentChild() {
                   <th className="px-4 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-charcoal-700">
+              <tbody className="divide-y divide-charcoal-700 bg-charcoal-850">
                 {records.map((r) => (
                   <tr key={r.id}>
                     <td className="px-4 py-3 text-zinc-300">
@@ -287,7 +287,7 @@ export default function ParentChild() {
               return (
                 <li
                   key={rep.id}
-                  className="card p-5"
+                  className="stadium-card p-5"
                 >
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
                     Assessment — {formatDate(rep.assessment_date)}
@@ -378,7 +378,7 @@ export default function ParentChild() {
             />
           </div>
         ) : (
-          <div className="mt-4 table-shell">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-charcoal-700">
             <table className="w-full min-w-[560px] text-left text-sm">
               <thead>
                 <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
@@ -389,7 +389,7 @@ export default function ParentChild() {
                   <th className="px-4 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-charcoal-700">
+              <tbody className="divide-y divide-charcoal-700 bg-charcoal-850">
                 {fees.map((f) => {
                   const status = feeStatus(
                     f.amount_due,
@@ -445,7 +445,7 @@ export default function ParentChild() {
             {matches.map((m) => (
               <li
                 key={m.id}
-                className="flex flex-wrap items-center justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 stadium-card px-5 py-4"
               >
                 <div>
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">

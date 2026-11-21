@@ -80,7 +80,7 @@ export default function Announcements() {
           {announcements.map((a) => (
             <li
               key={a.id}
-              className="card p-5"
+              className="stadium-card p-5"
             >
               <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
                 <Megaphone className="h-4 w-4 text-brand-400" />

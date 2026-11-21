@@ -27,6 +27,7 @@ import {
   Spinner,
   useToast,
 } from '../../components/ui'
+import { ScoreboardHeader } from '../../components/stadium'
 
 interface FormState {
   team_id: string
@@ -207,21 +208,17 @@ export default function Sessions() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
-            Training Sessions
-          </h1>
-          <p className="mt-1 text-sm text-zinc-400">
-            Schedule, edit and cancel sessions. Every session is a unique record
-            — plans and attendance attach to it.
-          </p>
-        </div>
-        <PrimaryButton onClick={openCreate}>
-          <Plus className="h-4 w-4" />
-          New session
-        </PrimaryButton>
-      </div>
+      <ScoreboardHeader
+        kicker="Fixtures · Training"
+        title="Training Sessions"
+        meta="Schedule, edit and cancel sessions. Every session is a unique record — plans and attendance attach to it."
+        action={
+          <PrimaryButton onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            New session
+          </PrimaryButton>
+        }
+      />
 
       {/* Filters */}
       <div className="mt-6 flex flex-wrap gap-3">
@@ -232,7 +229,7 @@ export default function Sessions() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search sessions, teams, pitches…"
-            className="field pl-9"
+            className="w-full rounded-xl border border-charcoal-600 bg-charcoal-900 py-2.5 pr-3 pl-9 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
           />
         </div>
         <select
@@ -267,7 +264,7 @@ export default function Sessions() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -295,7 +292,7 @@ export default function Sessions() {
               <select
                 value={form.team_id}
                 onChange={(e) => setForm({ ...form, team_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 <option value="">Select a team</option>
                 {teams.map((t) => (
@@ -314,7 +311,7 @@ export default function Sessions() {
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 placeholder="e.g. Passing under pressure"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -325,7 +322,7 @@ export default function Sessions() {
                 type="date"
                 value={form.session_date}
                 onChange={(e) => setForm({ ...form, session_date: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -336,7 +333,7 @@ export default function Sessions() {
                 type="time"
                 value={form.start_time}
                 onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -349,7 +346,7 @@ export default function Sessions() {
                 max={300}
                 value={form.duration_minutes}
                 onChange={(e) => setForm({ ...form, duration_minutes: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -361,7 +358,7 @@ export default function Sessions() {
                 value={form.pitch}
                 onChange={(e) => setForm({ ...form, pitch: e.target.value })}
                 placeholder="Urban Turf"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -394,7 +391,7 @@ export default function Sessions() {
                 value={form.objectives}
                 onChange={(e) => setForm({ ...form, objectives: e.target.value })}
                 placeholder="What should players be able to do by the end of this session?"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -406,7 +403,7 @@ export default function Sessions() {
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 placeholder="Anything else coaches should know about this session."
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
           </div>
@@ -440,41 +437,52 @@ export default function Sessions() {
           {filtered.map((s) => (
             <li
               key={s.id}
-              className="card px-5 py-4"
+              className="stadium-card flex flex-wrap items-center gap-4 px-5 py-4"
             >
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <Link to={`/portal/sessions/${s.id}`} className="min-w-0 flex-1">
-                  <p className="flex flex-wrap items-center gap-2 font-semibold text-white hover:text-brand-300">
-                    {s.title ?? `${s.category} session`}
+              <div className="flex shrink-0 flex-col items-center justify-center rounded-xl border border-charcoal-600 bg-charcoal-950 px-3 py-2 text-center">
+                <span className="font-display text-lg leading-none font-bold text-gold-400">
+                  {s.session_date.slice(8, 10)}
+                </span>
+                <span className="mt-1 text-[10px] font-semibold tracking-widest text-zinc-500 uppercase">
+                  Matchday
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <Link to={`/portal/sessions/${s.id}`} className="min-w-0">
+                  <p className="flex flex-wrap items-center gap-2 text-xs font-bold tracking-[0.2em] text-brand-400 uppercase">
+                    {s.team?.name ?? 'VKFA'}
                     {s.is_demo && <DemoBadge />}
                   </p>
-                  <p className="mt-0.5 text-sm text-zinc-400">
-                    {s.team?.name} · {formatDateTime(s.session_date, s.start_time)} ·{' '}
+                  <p className="mt-1 truncate font-semibold text-white hover:text-brand-300">
+                    {s.title ?? `${s.category} session`}
+                  </p>
+                  <p className="mt-0.5 truncate text-sm text-zinc-400">
+                    {formatDateTime(s.session_date, s.start_time)} ·{' '}
                     {s.duration_minutes} min
                     {s.pitch ? ` · ${s.pitch}` : ''} · {s.category}
                   </p>
                 </Link>
-                <div className="flex shrink-0 items-center gap-2">
-                  {statusBadge(s.status)}
-                  {s.status === 'scheduled' && (
-                    <>
-                      <SecondaryButton
-                        onClick={() => openEdit(s)}
-                        className="!px-3 !py-1.5 !text-xs"
-                      >
-                        <Pencil className="h-3.5 w-3.5" />
-                        Edit
-                      </SecondaryButton>
-                      <button
-                        type="button"
-                        onClick={() => setCancelTarget(s)}
-                        className="rounded-xl border border-brand-800 bg-brand-900/30 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:bg-brand-900/60"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  )}
-                </div>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                {statusBadge(s.status)}
+                {s.status === 'scheduled' && (
+                  <>
+                    <SecondaryButton
+                      onClick={() => openEdit(s)}
+                      className="!px-3 !py-1.5 !text-xs"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Edit
+                    </SecondaryButton>
+                    <button
+                      type="button"
+                      onClick={() => setCancelTarget(s)}
+                      className="rounded-xl border border-brand-800 bg-brand-900/30 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:bg-brand-900/60"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )}
               </div>
             </li>
           ))}

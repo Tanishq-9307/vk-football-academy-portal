@@ -175,7 +175,7 @@ export default function SessionDetail() {
       </div>
 
       {session.objectives && (
-        <div className="mt-5 card p-5">
+        <div className="mt-5 stadium-card p-5">
           <h2 className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
             Objectives
           </h2>
@@ -221,7 +221,7 @@ export default function SessionDetail() {
             />
           </div>
         ) : (
-          <div className="mt-4 card p-5">
+          <div className="mt-4 stadium-card p-5">
             <p className="font-semibold text-white">{plan.title}</p>
             {plan.description && (
               <p className="mt-1 text-sm text-zinc-400">{plan.description}</p>
@@ -279,7 +279,7 @@ export default function SessionDetail() {
             />
           </div>
         ) : (
-          <div className="mt-4 card p-5">
+          <div className="mt-4 stadium-card p-5">
             <div className="flex flex-wrap gap-6 text-sm">
               <span>
                 <strong className="font-display text-2xl text-white">{stats.pct}%</strong>
@@ -334,7 +334,7 @@ export default function SessionDetail() {
             {observations.map((o) => (
               <li
                 key={o.id}
-                className="card p-4"
+                className="stadium-card p-4"
               >
                 <p className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-200">
                   {o.observation}
@@ -369,7 +369,7 @@ export default function SessionDetail() {
                 value={obsText}
                 onChange={(e) => setObsText(e.target.value)}
                 placeholder="What happened in the session? What did players do well, and what needs work next time?"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
               />
             </label>
             <div className="mt-3 flex justify-end">

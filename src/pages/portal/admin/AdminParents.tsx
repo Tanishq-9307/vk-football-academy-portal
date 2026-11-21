@@ -137,7 +137,7 @@ export default function AdminParents() {
         </PrimaryButton>
       </div>
 
-      <p className="mt-4 card px-4 py-3 text-sm text-zinc-400">
+      <p className="mt-4 rounded-xl border border-charcoal-700 bg-charcoal-850 px-4 py-3 text-sm text-zinc-400">
         Parent logins are created in Supabase → Authentication → Add user,
         with user metadata{' '}
         <code className="text-zinc-200">{'{"role": "parent", "full_name": "Parent Name"}'}</code>
@@ -148,7 +148,7 @@ export default function AdminParents() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -176,7 +176,7 @@ export default function AdminParents() {
               <select
                 value={parentId}
                 onChange={(e) => setParentId(e.target.value)}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 {parents.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -193,7 +193,7 @@ export default function AdminParents() {
               <select
                 value={playerId}
                 onChange={(e) => setPlayerId(e.target.value)}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 {players.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -212,7 +212,7 @@ export default function AdminParents() {
                 value={relationship}
                 onChange={(e) => setRelationship(e.target.value)}
                 placeholder="e.g. Father, Mother, Guardian"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
           </div>
@@ -270,7 +270,7 @@ export default function AdminParents() {
             {links.map((l) => (
               <li
                 key={l.id}
-                className="flex flex-wrap items-center justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 stadium-card px-5 py-4"
               >
                 <div>
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">

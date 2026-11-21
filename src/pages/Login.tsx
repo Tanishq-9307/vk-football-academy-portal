@@ -35,22 +35,11 @@ export default function Login() {
   }
 
   return (
-    <div className="relative mx-auto flex min-h-[78vh] w-full max-w-md flex-col justify-center px-4 py-16">
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        aria-hidden="true"
-        style={{
-          background:
-            'radial-gradient(60% 45% at 50% 0%, rgba(227,6,19,0.22) 0%, transparent 65%), radial-gradient(40% 35% at 50% 100%, rgba(212,175,55,0.10) 0%, transparent 60%)',
-        }}
-      />
+    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-16">
       <div className="flex justify-center">
-        <div className="animate-float-slow">
-          <Logo size={72} />
-        </div>
+        <Logo size={64} />
       </div>
-      <p className="eyebrow mt-7 justify-center text-center">VKFA Portal</p>
-      <h1 className="font-display mt-3 text-center text-4xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display mt-6 text-center text-3xl font-semibold tracking-wide text-white uppercase">
         Coach &amp; Admin Login
       </h1>
       <p className="mt-2 text-center text-sm text-zinc-400">
@@ -59,37 +48,37 @@ export default function Login() {
 
       <form
         onSubmit={handleSubmit}
-        className="card-gold relative mt-8 overflow-hidden p-6 sm:p-7"
+        className="mt-8 stadium-card p-6"
       >
-        <span
-          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 to-gold-400"
-          aria-hidden="true"
-        />
         {error && (
           <div className="mb-4">
             <ErrorBanner message={error} />
           </div>
         )}
         <label className="block">
-          <span className="field-label">Email</span>
+          <span className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
+            Email
+          </span>
           <input
             type="email"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="field"
+            className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
           />
         </label>
-        <label className="mt-5 block">
-          <span className="field-label">Password</span>
+        <label className="mt-4 block">
+          <span className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
+            Password
+          </span>
           <input
             type="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            className="field"
+            className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-brand-500 focus:outline-none"
           />
         </label>
         <PrimaryButton

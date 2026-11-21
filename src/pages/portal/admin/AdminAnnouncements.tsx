@@ -132,7 +132,7 @@ export default function AdminAnnouncements() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -162,7 +162,7 @@ export default function AdminAnnouncements() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Trial dates for U12"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -174,7 +174,7 @@ export default function AdminAnnouncements() {
                 onChange={(e) =>
                   setAudience(e.target.value as AnnouncementAudience)
                 }
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 {AUDIENCES.map((a) => (
                   <option key={a} value={a}>
@@ -192,7 +192,7 @@ export default function AdminAnnouncements() {
                 onChange={(e) => setBody(e.target.value)}
                 rows={5}
                 placeholder="Write the announcement…"
-                className="mt-2 w-full resize-y field"
+                className="mt-2 w-full resize-y rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
           </div>
@@ -219,7 +219,7 @@ export default function AdminAnnouncements() {
           {announcements.map((a) => (
             <li
               key={a.id}
-              className="card p-5"
+              className="stadium-card p-5"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>

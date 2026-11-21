@@ -12,7 +12,7 @@ import {
 } from '../../lib/data'
 import type { Match, MatchStatus, Team } from '../../lib/types'
 import { MATCH_STATUS_LABELS } from '../../lib/types'
-import { formatDate, formatDateTime, formatTime, todayIso } from '../../lib/utils'
+import { formatDate, formatTime, todayIso } from '../../lib/utils'
 import {
   ConfirmDialog,
   DemoBadge,
@@ -23,6 +23,7 @@ import {
   Spinner,
   useToast,
 } from '../../components/ui'
+import { ScoreboardHeader } from '../../components/stadium'
 
 interface MatchForm {
   team_id: string
@@ -226,17 +227,20 @@ export default function Matches() {
     return (
       <li
         key={m.id}
-        className="card px-5 py-4"
+        className="stadium-card px-5 py-4"
       >
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
-              <Trophy className="h-4 w-4 text-brand-400" />
-              {m.team?.name} vs {m.opponent}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="min-w-0">
+            <p className="flex flex-wrap items-center gap-2 text-xs font-bold tracking-[0.2em] text-brand-400 uppercase">
+              <Trophy className="h-4 w-4" />
+              {formatDate(m.match_date)}
               {m.is_demo && <DemoBadge />}
             </p>
-            <p className="mt-0.5 text-sm text-zinc-400">
-              {formatDateTime(m.match_date, m.start_time)}
+            <p className="font-display mt-2 text-xl leading-tight font-bold tracking-wide text-white uppercase sm:text-2xl">
+              {m.team?.name} <span className="text-brand-500">vs</span> {m.opponent}
+            </p>
+            <p className="mt-1 text-sm text-zinc-400">
+              {formatTime(m.start_time)}
               {m.venue ? ` · ${m.venue}` : ''}
             </p>
             {m.goals && (
@@ -246,10 +250,10 @@ export default function Matches() {
               <p className="mt-1 text-sm text-zinc-500">{m.observations}</p>
             )}
           </div>
-          <div className="text-right">
+          <div className="shrink-0 text-right">
             {isResult ? (
-              <p className="font-display text-2xl font-semibold text-white">
-                {m.home_score} – {m.away_score}
+              <p className="font-display text-4xl leading-none font-bold text-gold-400">
+                {m.home_score} <span className="text-white/40">–</span> {m.away_score}
               </p>
             ) : (
               <span className="rounded-full bg-charcoal-800 px-3 py-1 text-xs font-semibold text-zinc-300">
@@ -295,29 +299,28 @@ export default function Matches() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
-            Matches
-          </h1>
-          <p className="mt-1 text-sm text-zinc-400">
-            {isParent
-              ? 'Fixtures and results for your children’s teams.'
-              : 'Fixtures, results and match notes — chronological, per team.'}
-          </p>
-        </div>
-        {canManage && (
-          <PrimaryButton onClick={openCreate}>
-            <Plus className="h-4 w-4" />
-            New fixture
-          </PrimaryButton>
-        )}
-      </div>
+      <ScoreboardHeader
+        kicker="Fixtures & results"
+        title="Matches"
+        meta={
+          isParent
+            ? 'Fixtures and results for your children’s teams.'
+            : 'Fixtures, results and match notes — chronological, per team.'
+        }
+        action={
+          canManage ? (
+            <PrimaryButton onClick={openCreate}>
+              <Plus className="h-4 w-4" />
+              New fixture
+            </PrimaryButton>
+          ) : undefined
+        }
+      />
 
       {formOpen && canManage && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -349,7 +352,7 @@ export default function Matches() {
               <select
                 value={form.team_id}
                 onChange={(e) => setForm({ ...form, team_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 {teams.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -367,7 +370,7 @@ export default function Matches() {
                 value={form.opponent}
                 onChange={(e) => setForm({ ...form, opponent: e.target.value })}
                 placeholder="e.g. Reliance Young Champs"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -378,7 +381,7 @@ export default function Matches() {
                 type="date"
                 value={form.match_date}
                 onChange={(e) => setForm({ ...form, match_date: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -389,7 +392,7 @@ export default function Matches() {
                 type="time"
                 value={form.start_time}
                 onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -401,7 +404,7 @@ export default function Matches() {
                 value={form.venue}
                 onChange={(e) => setForm({ ...form, venue: e.target.value })}
                 placeholder="Urban Turf"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -413,7 +416,7 @@ export default function Matches() {
                 onChange={(e) =>
                   setForm({ ...form, status: e.target.value as MatchStatus })
                 }
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 <option value="scheduled">Scheduled</option>
                 <option value="completed">Completed</option>
@@ -430,7 +433,7 @@ export default function Matches() {
                 step={1}
                 value={form.home_score}
                 onChange={(e) => setForm({ ...form, home_score: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -443,7 +446,7 @@ export default function Matches() {
                 step={1}
                 value={form.away_score}
                 onChange={(e) => setForm({ ...form, away_score: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -455,7 +458,7 @@ export default function Matches() {
                 value={form.goals}
                 onChange={(e) => setForm({ ...form, goals: e.target.value })}
                 placeholder="e.g. Aarav 2, Kabir 1"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -466,7 +469,7 @@ export default function Matches() {
                 rows={2}
                 value={form.observations}
                 onChange={(e) => setForm({ ...form, observations: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
           </div>
@@ -486,7 +489,7 @@ export default function Matches() {
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           aria-label="Filter by team"
-          className="field"
+          className="rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
         >
           <option value="all">All teams</option>
           {teams.map((t) => (
@@ -499,7 +502,7 @@ export default function Matches() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           aria-label="Filter by status"
-          className="field"
+          className="rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
         >
           <option value="all">All statuses</option>
           <option value="scheduled">Scheduled</option>
@@ -511,7 +514,7 @@ export default function Matches() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search opponent, team or venue…"
-          className="min-w-48 flex-1 field"
+          className="min-w-48 flex-1 rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
         />
       </div>
 

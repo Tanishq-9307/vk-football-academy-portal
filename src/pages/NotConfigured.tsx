@@ -22,7 +22,7 @@ export default function NotConfigured() {
         needs a Supabase project to store its data. The database connection
         has not been set up yet.
       </p>
-      <div className="mt-6 w-full rounded-2xl border border-charcoal-700 bg-charcoal-850 p-5 text-left text-sm leading-relaxed text-zinc-400">
+      <div className="mt-6 w-full stadium-card p-5 text-left text-sm leading-relaxed text-zinc-400">
         <p className="font-semibold text-zinc-200">For the person setting this up:</p>
         <ol className="mt-2 list-decimal space-y-1.5 pl-5">
           <li>Create a Supabase project and run <code className="rounded bg-charcoal-800 px-1.5 py-0.5 text-zinc-200">supabase/schema.sql</code> in its SQL editor.</li>

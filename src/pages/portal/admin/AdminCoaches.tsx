@@ -172,7 +172,7 @@ export default function AdminCoaches() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 stadium-card p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
@@ -201,7 +201,7 @@ export default function AdminCoaches() {
                 type="text"
                 value={form.full_name}
                 onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -212,7 +212,7 @@ export default function AdminCoaches() {
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -223,7 +223,7 @@ export default function AdminCoaches() {
                 type="tel"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -234,7 +234,7 @@ export default function AdminCoaches() {
                 type="text"
                 value={form.licence}
                 onChange={(e) => setForm({ ...form, licence: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -244,7 +244,7 @@ export default function AdminCoaches() {
               <select
                 value={form.user_id}
                 onChange={(e) => setForm({ ...form, user_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               >
                 <option value="">Not linked — no portal access yet</option>
                 {profiles.map((p) => (
@@ -268,7 +268,7 @@ export default function AdminCoaches() {
                 rows={2}
                 value={form.bio}
                 onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-charcoal-600 bg-charcoal-900 px-3.5 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
               />
             </label>
             <label className="flex items-center gap-2 text-sm text-zinc-300">
@@ -304,7 +304,7 @@ export default function AdminCoaches() {
           {coaches.map((c) => (
             <li
               key={c.id}
-              className="flex flex-wrap items-start justify-between gap-3 card px-5 py-4"
+              className="flex flex-wrap items-start justify-between gap-3 stadium-card px-5 py-4"
             >
               <div>
                 <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
