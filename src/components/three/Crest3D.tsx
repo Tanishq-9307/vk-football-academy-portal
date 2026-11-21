@@ -3,12 +3,15 @@ import * as THREE from 'three'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, Sparkles, Text } from '@react-three/drei'
 import { Football } from './Football'
+import { stepInteraction, useInteraction, type InteractionState } from './useInteraction'
 
 /**
  * The academy crest in 3D: an extruded gold shield (bevelled), a black
  * inset shield, a red ribbon bar across the lower third, a football in a
  * gold ring overlapping the top edge, and "VK" in 3D type (white V, red K)
- * using the bundled Oswald Bold font. Slow sway + pointer tilt.
+ * using the bundled Oswald Bold font. Slow sway + pointer tilt, and fully
+ * interactive when an `interaction` state is passed: drag (mouse or touch)
+ * to rotate it with momentum, tap / click for a spin burst.
  *
  * The font is served locally (/fonts/Oswald-Bold.ttf) so the text never
  * depends on a runtime CDN fetch.
@@ -30,9 +33,10 @@ function shieldShape(): THREE.Shape {
   return s
 }
 
-function CrestModel() {
+function CrestModel({ interaction }: { interaction?: InteractionState }) {
   const group = useRef<THREE.Group>(null)
   const pointer = useRef({ x: 0, y: 0 })
+  const tilt = useRef({ x: 0 })
   const shape = useMemo(() => shieldShape(), [])
   const extrude = useMemo(
     () => ({
@@ -55,12 +59,20 @@ function CrestModel() {
     return () => window.removeEventListener('pointermove', onMove)
   }, [])
 
-  useFrame((state) => {
+  useFrame((state, dt) => {
     const g = group.current
     if (!g) return
     const t = state.clock.elapsedTime
-    g.rotation.y = Math.sin(t * 0.4) * 0.22
-    g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, pointer.current.y * 0.12, 0.05)
+    let rotY = Math.sin(t * 0.4) * 0.22
+    if (interaction) {
+      stepInteraction(interaction, dt)
+      rotY += interaction.rotY
+    }
+    // Hover tilt (mouse only) — eases to zero while dragging.
+    const targetX = interaction?.dragging ? 0 : pointer.current.y * 0.12
+    tilt.current.x = THREE.MathUtils.lerp(tilt.current.x, targetX, 0.05)
+    g.rotation.y = rotY
+    g.rotation.x = tilt.current.x
     g.position.y = Math.sin(t * 0.7) * 0.06
   })
 
@@ -127,38 +139,53 @@ function CrestModel() {
   )
 }
 
-/** Large 3D crest. Mount lazily (React.lazy) and only when 3D is allowed. */
+/** Large 3D crest. Mount lazily (React.lazy) and only when 3D is allowed.
+ * Interactive on every device: drag (mouse or touch) to rotate it with
+ * momentum, tap / click for a spin burst. Vertical swipes still scroll
+ * the page (touch-action: pan-y); the render loop pauses off-screen. */
 export default function Crest3D() {
+  const { state, handlers, wrapRef, frameloop } = useInteraction()
   return (
-    <Canvas
-      dpr={[1, 1.75]}
-      camera={{ position: [0, 0.2, 8.5], fov: 36 }}
-      gl={{ antialias: true, alpha: true }}
-      style={{ background: 'transparent', pointerEvents: 'none' }}
+    <div
+      ref={wrapRef}
+      {...handlers}
+      className="relative h-full w-full cursor-grab select-none active:cursor-grabbing"
+      style={{ touchAction: 'pan-y', WebkitTapHighlightColor: 'transparent' }}
+      role="img"
+      aria-label="VK Football Academy crest in 3D — drag to rotate, tap to spin"
     >
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[4, 6, 6]} intensity={1.5} />
-      <pointLight position={[-5, 2, 4]} intensity={25} color="#e30613" />
-      <pointLight position={[5, -1, 3]} intensity={15} color="#d4af37" />
-      <Suspense fallback={null}>
-        <CrestModel />
-        <ContactShadows
-          position={[0, -2.9, 0]}
-          opacity={0.5}
-          scale={8}
-          blur={2.4}
-          far={3}
-          color="#000000"
-        />
-        <Sparkles
-          count={40}
-          scale={[7, 5, 3]}
-          size={2}
-          speed={0.2}
-          color="#d4af37"
-          position={[0, 0, -1]}
-        />
-      </Suspense>
-    </Canvas>
+      <Canvas
+        dpr={[1, 1.75]}
+        frameloop={frameloop}
+        performance={{ min: 0.5 }}
+        camera={{ position: [0, 0.2, 8.5], fov: 36 }}
+        gl={{ antialias: true, alpha: true }}
+        style={{ background: 'transparent', pointerEvents: 'none' }}
+      >
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[4, 6, 6]} intensity={1.5} />
+        <pointLight position={[-5, 2, 4]} intensity={25} color="#e30613" />
+        <pointLight position={[5, -1, 3]} intensity={15} color="#d4af37" />
+        <Suspense fallback={null}>
+          <CrestModel interaction={state} />
+          <ContactShadows
+            position={[0, -2.9, 0]}
+            opacity={0.5}
+            scale={8}
+            blur={2.4}
+            far={3}
+            color="#000000"
+          />
+          <Sparkles
+            count={40}
+            scale={[7, 5, 3]}
+            size={2}
+            speed={0.2}
+            color="#d4af37"
+            position={[0, 0, -1]}
+          />
+        </Suspense>
+      </Canvas>
+    </div>
   )
 }
