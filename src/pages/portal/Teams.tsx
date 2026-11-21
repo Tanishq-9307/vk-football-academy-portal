@@ -87,7 +87,7 @@ export default function Teams() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         {profile?.role === 'admin' ? 'All teams' : 'My teams'}
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -124,9 +124,9 @@ export default function Teams() {
             return (
               <article
                 key={team.id}
-                className="overflow-hidden card"
+                className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl"
               >
-                <header className="flex flex-wrap items-center justify-between gap-3 border-b border-charcoal-700 px-5 py-4">
+                <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
                   <div>
                     <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
                       {team.name}
@@ -155,7 +155,7 @@ export default function Teams() {
 
                 <div className="grid gap-0 md:grid-cols-2">
                   {/* Players + per-player attendance */}
-                  <div className="border-b border-charcoal-700 p-5 md:border-r md:border-b-0">
+                  <div className="border-b border-white/10 p-5 md:border-r md:border-b-0">
                     <h3 className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
                       Players &amp; attendance
                     </h3>
@@ -164,7 +164,7 @@ export default function Teams() {
                         No players registered in this team yet.
                       </p>
                     ) : (
-                      <ul className="mt-3 divide-y divide-charcoal-700">
+                      <ul className="mt-3 divide-y divide-white/10">
                         {players.map((p) => {
                           const mine = records.filter(
                             (r) => r.player_id === p.id,
@@ -228,7 +228,7 @@ export default function Teams() {
                           <li key={s.id}>
                             <Link
                               to={`/portal/sessions/${s.id}`}
-                              className="card card-hover flex items-center justify-between gap-3 px-3.5 py-2.5 text-sm"
+                              className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm transition hover:border-gold-500/40"
                             >
                               <span className="flex items-center gap-2 text-zinc-200">
                                 <CalendarDays className="h-4 w-4 shrink-0 text-brand-400" />

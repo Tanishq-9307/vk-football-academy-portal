@@ -166,7 +166,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         {existing ? 'Edit session plan' : 'New session plan'}
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -176,7 +176,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
 
       <form
         onSubmit={handleSubmit}
-        className="mt-6 card p-6"
+        className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
       >
         {error && (
           <div className="mb-4">
@@ -193,7 +193,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
               value={sessionId}
               onChange={(e) => setSessionId(e.target.value)}
               disabled={!!existing}
-              className="field disabled:opacity-60"
+              className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none disabled:opacity-60"
             >
               <option value="">Select a session</option>
               {sessions.map((s) => (
@@ -218,7 +218,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. U14 — Passing under pressure"
-              className="field"
+              className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
             />
           </label>
         </div>
@@ -232,11 +232,11 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="One-line summary of what this session is about."
-            className="field"
+            className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
           />
         </label>
 
-        <h2 className="font-display mt-8 text-lg font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display mt-8 text-lg font-medium tracking-normal text-white">
           Structured plan
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -250,13 +250,13 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
                 value={content[f.key] ?? ''}
                 onChange={(e) => setField(f.key, e.target.value)}
                 placeholder={f.hint}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
           ))}
         </div>
 
-        <h2 className="font-display mt-8 text-lg font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display mt-8 text-lg font-medium tracking-normal text-white">
           Attached document
         </h2>
         <p className="mt-1 text-sm text-zinc-400">
@@ -264,7 +264,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
           are stored privately and only coaches and admins can open them.
         </p>
         {existing?.file_name && !removeFile && !file && (
-          <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-charcoal-600 bg-charcoal-900 px-4 py-3 text-sm">
+          <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm">
             <span className="text-zinc-200">{existing.file_name}</span>
             <button
               type="button"
@@ -281,7 +281,7 @@ export default function PlanForm({ existing }: { existing?: SessionPlan | null }
             below to replace it instead.
           </p>
         )}
-        <label className="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-charcoal-600 bg-charcoal-900 px-4 py-6 text-sm text-zinc-300 transition hover:border-brand-500 hover:text-white">
+        <label className="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 bg-white/[0.03] px-4 py-6 text-sm text-zinc-300 transition hover:border-gold-500/40 hover:text-white">
           <Upload className="h-5 w-5 text-brand-400" />
           {file ? file.name : 'Choose a file — PDF, DOCX or image (max 10 MB)'}
           <input

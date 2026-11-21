@@ -1,13 +1,6 @@
-import { lazy, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  CalendarDays,
-  ClipboardList,
-  GraduationCap,
-  ShieldCheck,
-  TrendingUp,
-  Users,
-} from 'lucide-react'
+import { CalendarDays, ClipboardList, ShieldCheck, Users } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 import {
@@ -19,21 +12,13 @@ import {
 import type { Team, TrainingSession } from '../../lib/types'
 import { attendancePct, formatDateTime, todayIso } from '../../lib/utils'
 import {
-  AttendanceRing,
-  Card,
   EmptyState,
   ErrorBanner,
-  PageHeader,
   PrimaryButton,
-  Reveal,
   Spinner,
   StatCard,
 } from '../../components/ui'
-import { ThreeStage } from '../../components/three/ThreeStage'
-import Logo from '../../components/Logo'
 import ParentDashboard from './ParentDashboard'
-
-const MiniBall = lazy(() => import('../../components/three/MiniBall'))
 
 export default function Dashboard() {
   const { profile, coach } = useAuth()
@@ -121,85 +106,46 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div className="flex items-start justify-between gap-4">
-        <PageHeader
-          eyebrow={isAdmin ? 'VKFA Portal · Admin' : 'VKFA Portal · Coach'}
-          title={isAdmin ? 'Admin dashboard' : 'Coach dashboard'}
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
+        {isAdmin ? 'Admin dashboard' : 'Coach dashboard'}
+      </h1>
+      <p className="mt-1 text-sm text-zinc-400">
+        {isAdmin
+          ? 'Academy-wide overview — teams, coaches, sessions and attendance.'
+          : `Welcome back, ${coach?.full_name ?? profile.full_name ?? 'Coach'}. Here's what's coming up for your teams.`}
+      </p>
+
+      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard
+          label={isAdmin ? 'Total teams' : 'My teams'}
+          value={String(teams.length)}
+          sub={teams.map((t) => t.name).join(' · ') || 'No teams assigned yet'}
+        />
+        {isAdmin && (
+          <>
+            <StatCard label="Coaches" value={String(counts.coaches)} />
+            <StatCard label="Players" value={String(counts.players)} />
+          </>
+        )}
+        <StatCard
+          label="Upcoming sessions"
+          value={String(upcoming.length)}
+          sub="Scheduled from today"
+        />
+        <StatCard
+          label="Attendance · last 30 days"
+          value={`${recentPct}%`}
           sub={
-            isAdmin
-              ? 'Academy-wide overview — teams, coaches, sessions and attendance.'
-              : `Welcome back, ${coach?.full_name ?? profile.full_name ?? 'Coach'}. Here's what's coming up for your teams.`
+            recentMarked === 0
+              ? 'No attendance marked yet'
+              : `${recentMarked} marks across ${recentSessions} session${recentSessions === 1 ? '' : 's'}`
           }
         />
-        <div className="card-gold hidden h-24 w-24 shrink-0 items-center justify-center overflow-hidden sm:flex">
-          <ThreeStage
-            scene={MiniBall}
-            fallback={
-              <div className="flex h-full items-center justify-center">
-                <Logo size={52} />
-              </div>
-            }
-            label="Spinning football"
-            className="h-full w-full"
-          />
-        </div>
       </div>
 
-      <Reveal>
-        <div className="mt-7 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StatCard
-            label={isAdmin ? 'Total teams' : 'My teams'}
-            value={String(teams.length)}
-            sub={teams.map((t) => t.name).join(' · ') || 'No teams assigned yet'}
-            icon={<Users className="h-4 w-4" />}
-            accent="red"
-          />
-          {isAdmin && (
-            <>
-              <StatCard
-                label="Coaches"
-                value={String(counts.coaches)}
-                icon={<GraduationCap className="h-4 w-4" />}
-                accent="gold"
-              />
-              <StatCard
-                label="Players"
-                value={String(counts.players)}
-                icon={<Users className="h-4 w-4" />}
-                accent="sky"
-              />
-            </>
-          )}
-          <StatCard
-            label="Upcoming sessions"
-            value={String(upcoming.length)}
-            sub="Scheduled from today"
-            icon={<CalendarDays className="h-4 w-4" />}
-            accent="gold"
-          />
-          <Card className="relative overflow-hidden p-5">
-            <span
-              className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-500 to-gold-400"
-              aria-hidden="true"
-            />
-            <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
-              Attendance · last 30 days
-            </p>
-            <div className="mt-3">
-              <AttendanceRing pct={recentPct} size={92} />
-            </div>
-            <p className="mt-2 text-xs text-zinc-500">
-              {recentMarked === 0
-                ? 'No attendance marked yet'
-                : `${recentMarked} marks across ${recentSessions} session${recentSessions === 1 ? '' : 's'}`}
-            </p>
-          </Card>
-        </div>
-      </Reveal>
-
-      <section className="mt-9">
+      <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Upcoming sessions
           </h2>
           <Link
@@ -234,7 +180,7 @@ export default function Dashboard() {
               <li key={s.id}>
                 <Link
                   to={`/portal/sessions/${s.id}`}
-                  className="card card-hover flex flex-wrap items-center justify-between gap-3 px-5 py-4"
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4 transition hover:border-gold-500/40"
                 >
                   <div>
                     <p className="font-semibold text-white">
@@ -246,7 +192,7 @@ export default function Dashboard() {
                       {s.pitch ? ` · ${s.pitch}` : ''}
                     </p>
                   </div>
-                  <span className="rounded-full border border-gold-600/50 bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-400">
+                  <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-semibold text-zinc-300">
                     {s.category}
                   </span>
                 </Link>
@@ -256,12 +202,12 @@ export default function Dashboard() {
         )}
       </section>
 
-      <section className="mt-9 grid gap-4 sm:grid-cols-2">
+      <section className="mt-8 grid gap-4 sm:grid-cols-2">
         <Link
           to="/portal/plans"
-          className="card card-hover flex items-start gap-4 p-5"
+          className="flex items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
         >
-          <span className="rounded-2xl border border-gold-600/40 bg-gold-500/10 p-3 text-gold-400">
+          <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <ClipboardList className="h-5 w-5" />
           </span>
           <span>
@@ -273,9 +219,9 @@ export default function Dashboard() {
         </Link>
         <Link
           to="/portal/attendance"
-          className="card card-hover flex items-start gap-4 p-5"
+          className="flex items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
         >
-          <span className="rounded-2xl border border-gold-600/40 bg-gold-500/10 p-3 text-gold-400">
+          <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <ShieldCheck className="h-5 w-5" />
           </span>
           <span>
@@ -288,8 +234,8 @@ export default function Dashboard() {
       </section>
 
       {teams.length > 0 && (
-        <section className="mt-9">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <section className="mt-8">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             {isAdmin ? 'Teams' : 'My teams'}
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -297,21 +243,15 @@ export default function Dashboard() {
               <Link
                 key={t.id}
                 to="/portal/teams"
-                className="card card-hover group p-5"
+                className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
               >
                 <p className="flex items-center gap-2 font-semibold text-white">
-                  <span className="rounded-lg bg-brand-500/15 p-1.5 text-brand-400 transition group-hover:bg-brand-500/25">
-                    <Users className="h-4 w-4" />
-                  </span>
+                  <Users className="h-4 w-4 text-brand-400" />
                   {t.name}
                 </p>
-                <p className="mt-2 text-sm text-zinc-400">
+                <p className="mt-1 text-sm text-zinc-400">
                   {t.age_group}
                   {t.coach ? ` · Coach: ${t.coach.full_name}` : ''}
-                </p>
-                <p className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-gold-400">
-                  <TrendingUp className="h-3.5 w-3.5" />
-                  View team →
                 </p>
               </Link>
             ))}

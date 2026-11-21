@@ -209,7 +209,7 @@ export default function Sessions() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Training Sessions
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -232,14 +232,14 @@ export default function Sessions() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search sessions, teams, pitches…"
-            className="field pl-9"
+            className="w-full rounded-xl border border-white/15 bg-white/[0.03] py-2.5 pr-3 pl-9 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
           />
         </div>
         <select
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           aria-label="Filter by team"
-          className="rounded-xl border border-charcoal-600 bg-charcoal-900 px-3 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
+          className="rounded-xl border border-white/15 bg-white/[0.03] px-3 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         >
           <option value="all">All teams</option>
           {teams.map((t) => (
@@ -254,7 +254,7 @@ export default function Sessions() {
             setStatusFilter(e.target.value as 'all' | SessionStatus)
           }
           aria-label="Filter by status"
-          className="rounded-xl border border-charcoal-600 bg-charcoal-900 px-3 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
+          className="rounded-xl border border-white/15 bg-white/[0.03] px-3 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         >
           <option value="all">All statuses</option>
           <option value="scheduled">Scheduled</option>
@@ -267,17 +267,17 @@ export default function Sessions() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               {editing ? 'Edit session' : 'New training session'}
             </h2>
             <button
               type="button"
               onClick={() => setFormOpen(false)}
               aria-label="Close form"
-              className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+              className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>
@@ -295,7 +295,7 @@ export default function Sessions() {
               <select
                 value={form.team_id}
                 onChange={(e) => setForm({ ...form, team_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 <option value="">Select a team</option>
                 {teams.map((t) => (
@@ -314,7 +314,7 @@ export default function Sessions() {
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 placeholder="e.g. Passing under pressure"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -325,7 +325,7 @@ export default function Sessions() {
                 type="date"
                 value={form.session_date}
                 onChange={(e) => setForm({ ...form, session_date: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -336,7 +336,7 @@ export default function Sessions() {
                 type="time"
                 value={form.start_time}
                 onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -349,7 +349,7 @@ export default function Sessions() {
                 max={300}
                 value={form.duration_minutes}
                 onChange={(e) => setForm({ ...form, duration_minutes: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -361,7 +361,7 @@ export default function Sessions() {
                 value={form.pitch}
                 onChange={(e) => setForm({ ...form, pitch: e.target.value })}
                 placeholder="Urban Turf"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -377,7 +377,7 @@ export default function Sessions() {
                     className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
                       form.category === c
                         ? 'border-brand-500 bg-brand-500 text-white'
-                        : 'border-charcoal-600 bg-charcoal-900 text-zinc-300 hover:border-charcoal-500'
+                        : 'border-white/15 bg-white/[0.03] text-zinc-300 hover:border-white/25'
                     }`}
                   >
                     {c}
@@ -394,7 +394,7 @@ export default function Sessions() {
                 value={form.objectives}
                 onChange={(e) => setForm({ ...form, objectives: e.target.value })}
                 placeholder="What should players be able to do by the end of this session?"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -406,7 +406,7 @@ export default function Sessions() {
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 placeholder="Anything else coaches should know about this session."
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
           </div>
@@ -440,7 +440,7 @@ export default function Sessions() {
           {filtered.map((s) => (
             <li
               key={s.id}
-              className="card px-5 py-4"
+              className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <Link to={`/portal/sessions/${s.id}`} className="min-w-0 flex-1">

@@ -146,7 +146,7 @@ export default function SessionDetail() {
       </Link>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display flex flex-wrap items-center gap-2 text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display flex flex-wrap items-center gap-2 text-3xl font-medium tracking-normal text-white">
             {session.title ?? `${session.category} session`}
             {session.is_demo && <DemoBadge />}
           </h1>
@@ -175,7 +175,7 @@ export default function SessionDetail() {
       </div>
 
       {session.objectives && (
-        <div className="mt-5 card p-5">
+        <div className="mt-5 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5">
           <h2 className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
             Objectives
           </h2>
@@ -193,7 +193,7 @@ export default function SessionDetail() {
       {/* Session plan */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display flex items-center gap-2 text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display flex items-center gap-2 text-xl font-medium tracking-normal text-white">
             <ClipboardList className="h-5 w-5 text-brand-500" />
             Session plan
           </h2>
@@ -221,7 +221,7 @@ export default function SessionDetail() {
             />
           </div>
         ) : (
-          <div className="mt-4 card p-5">
+          <div className="mt-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5">
             <p className="font-semibold text-white">{plan.title}</p>
             {plan.description && (
               <p className="mt-1 text-sm text-zinc-400">{plan.description}</p>
@@ -258,7 +258,7 @@ export default function SessionDetail() {
       {/* Attendance */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display flex items-center gap-2 text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display flex items-center gap-2 text-xl font-medium tracking-normal text-white">
             <ShieldCheck className="h-5 w-5 text-brand-500" />
             Attendance
           </h2>
@@ -279,7 +279,7 @@ export default function SessionDetail() {
             />
           </div>
         ) : (
-          <div className="mt-4 card p-5">
+          <div className="mt-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5">
             <div className="flex flex-wrap gap-6 text-sm">
               <span>
                 <strong className="font-display text-2xl text-white">{stats.pct}%</strong>
@@ -298,7 +298,7 @@ export default function SessionDetail() {
                 <strong className="text-white">{stats.excused}</strong> excused
               </span>
             </div>
-            <ul className="mt-4 divide-y divide-charcoal-700">
+            <ul className="mt-4 divide-y divide-white/10">
               {players.map((p) => {
                 const rec = records.find((r) => r.player_id === p.id)
                 return (
@@ -322,7 +322,7 @@ export default function SessionDetail() {
 
       {/* Observations */}
       <section className="mt-8">
-        <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display text-xl font-medium tracking-normal text-white">
           Post-session observations
         </h2>
         {observations.length === 0 ? (
@@ -334,7 +334,7 @@ export default function SessionDetail() {
             {observations.map((o) => (
               <li
                 key={o.id}
-                className="card p-4"
+                className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-4"
               >
                 <p className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-200">
                   {o.observation}
@@ -369,7 +369,7 @@ export default function SessionDetail() {
                 value={obsText}
                 onChange={(e) => setObsText(e.target.value)}
                 placeholder="What happened in the session? What did players do well, and what needs work next time?"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <div className="mt-3 flex justify-end">

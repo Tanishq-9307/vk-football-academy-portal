@@ -200,7 +200,7 @@ export default function AdminTeams() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Manage Teams
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -217,17 +217,17 @@ export default function AdminTeams() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               {editing ? 'Edit team' : 'New team'}
             </h2>
             <button
               type="button"
               onClick={() => setFormOpen(false)}
               aria-label="Close form"
-              className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+              className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>
@@ -247,7 +247,7 @@ export default function AdminTeams() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. U14 Reds"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -257,7 +257,7 @@ export default function AdminTeams() {
               <select
                 value={ageGroup}
                 onChange={(e) => setAgeGroup(e.target.value as AgeGroup)}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 {AGE_GROUPS.map((g) => (
                   <option key={g} value={g}>
@@ -273,7 +273,7 @@ export default function AdminTeams() {
               <select
                 value={coachId}
                 onChange={(e) => setCoachId(e.target.value)}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 <option value="">No coach assigned</option>
                 {coaches.map((c) => (
@@ -307,7 +307,7 @@ export default function AdminTeams() {
           {teams.map((t) => (
             <li
               key={t.id}
-              className="card px-5 py-4"
+              className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -359,16 +359,16 @@ export default function AdminTeams() {
           aria-modal="true"
           aria-label={`Assign players to ${assignTeam.name}`}
         >
-          <div className="card-deep max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl p-6 shadow-2xl sm:rounded-2xl">
+          <div className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-white/15 bg-white/[0.04] p-6 shadow-2xl sm:rounded-2xl">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+              <h2 className="font-display text-xl font-medium tracking-normal text-white">
                 Players — {assignTeam.name}
               </h2>
               <button
                 type="button"
                 onClick={() => setAssignTeam(null)}
                 aria-label="Close"
-                className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+                className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -378,7 +378,7 @@ export default function AdminTeams() {
               value={assignSearch}
               onChange={(e) => setAssignSearch(e.target.value)}
               placeholder="Search players…"
-              className="mt-4 field"
+              className="mt-4 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
             />
             <p className="mt-3 text-sm text-zinc-400">
               {assignedIds.size} selected
@@ -388,7 +388,7 @@ export default function AdminTeams() {
                 No players exist yet — add them from Manage Players first.
               </p>
             ) : (
-              <ul className="mt-2 divide-y divide-charcoal-700">
+              <ul className="mt-2 divide-y divide-white/10">
                 {filteredAssignPlayers.map((p) => {
                   const checked = assignedIds.has(p.id)
                   return (

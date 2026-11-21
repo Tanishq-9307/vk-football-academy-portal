@@ -76,7 +76,7 @@ export default function ParentChildren() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         My Children
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -99,7 +99,7 @@ export default function ParentChildren() {
               <li key={s.child.id}>
                 <Link
                   to={`/portal/children/${s.child.id}`}
-                  className="block card card-hover px-5 py-4"
+                  className="block rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4 transition hover:border-gold-500/40"
                 >
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
                     <Baby className="h-4 w-4 text-brand-400" />

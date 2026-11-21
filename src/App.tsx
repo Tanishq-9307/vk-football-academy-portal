@@ -66,7 +66,7 @@ function ProtectedRoute({
   if (!profile) {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-4 text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-wide text-white uppercase">
+        <h1 className="font-display text-2xl font-medium tracking-normal text-white">
           Account not set up yet
         </h1>
         <p className="mt-3 leading-relaxed text-zinc-300">
@@ -86,7 +86,7 @@ function ProtectedRoute({
   if (adminOnly && profile.role !== 'admin') {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-4 text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-wide text-white uppercase">
+        <h1 className="font-display text-2xl font-medium tracking-normal text-white">
           Not authorised
         </h1>
         <p className="mt-3 leading-relaxed text-zinc-300">
@@ -99,7 +99,7 @@ function ProtectedRoute({
   if (roles && !roles.includes(profile.role)) {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-4 text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-wide text-white uppercase">
+        <h1 className="font-display text-2xl font-medium tracking-normal text-white">
           Not authorised
         </h1>
         <p className="mt-3 leading-relaxed text-zinc-300">

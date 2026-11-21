@@ -12,19 +12,12 @@ const NAV = [
   { to: '/contact', label: 'Contact' },
 ]
 
-const PROGRAMME_LINKS = [
-  { to: '/programmes', label: 'U12 — Foundations' },
-  { to: '/programmes', label: 'U14 — Development' },
-  { to: '/programmes', label: 'U16 — Performance' },
-  { to: '/programmes', label: 'U18 — Pathway' },
-]
-
 export default function PublicLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div className="flex min-h-screen flex-col bg-charcoal-950">
-      <header className="sticky top-0 z-50 border-b border-charcoal-800/80 bg-charcoal-950/90 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0e0e12]/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link to="/" onClick={() => setMenuOpen(false)}>
             <Logo size={44} withWordmark />
@@ -36,10 +29,10 @@ export default function PublicLayout() {
                 to={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
-                  `relative rounded-lg px-3.5 py-2 text-sm font-medium transition ${
+                  `rounded-full px-3.5 py-2 text-sm font-medium transition ${
                     isActive
-                      ? 'text-white after:absolute after:inset-x-3 after:-bottom-[13px] after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-brand-500 after:to-gold-400'
-                      : 'text-zinc-400 hover:text-white'
+                      ? 'bg-white/[0.07] text-white'
+                      : 'text-zinc-400 hover:bg-white/[0.06] hover:text-white'
                   }`
                 }
               >
@@ -48,7 +41,7 @@ export default function PublicLayout() {
             ))}
             <Link
               to="/login"
-              className="ml-3 inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition hover:bg-brand-600 active:scale-[0.98]"
+              className="ml-3 inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-brand-500/10 transition hover:bg-brand-600"
             >
               <LogIn className="h-4 w-4" />
               Coach / Admin Login
@@ -56,7 +49,7 @@ export default function PublicLayout() {
           </nav>
           <button
             type="button"
-            className="rounded-xl p-2 text-zinc-300 transition hover:bg-charcoal-800 md:hidden"
+            className="rounded-full p-2 text-zinc-300 hover:bg-white/[0.06] md:hidden"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
@@ -66,7 +59,7 @@ export default function PublicLayout() {
         </div>
         {menuOpen && (
           <nav
-            className="border-t border-charcoal-800 px-4 py-3 md:hidden"
+            className="border-t border-white/10 px-4 py-3 md:hidden"
             aria-label="Mobile"
           >
             <div className="flex flex-col gap-1">
@@ -77,10 +70,10 @@ export default function PublicLayout() {
                   end={item.to === '/'}
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
-                    `rounded-xl px-3 py-2.5 text-sm font-medium ${
+                    `rounded-full px-3 py-2.5 text-sm font-medium ${
                       isActive
-                        ? 'border-l-2 border-gold-400 bg-charcoal-800 text-white'
-                        : 'text-zinc-400 hover:bg-charcoal-800 hover:text-white'
+                        ? 'bg-white/[0.07] text-white'
+                        : 'text-zinc-400 hover:bg-white/[0.06] hover:text-white'
                     }`
                   }
                 >
@@ -90,7 +83,7 @@ export default function PublicLayout() {
               <Link
                 to="/login"
                 onClick={() => setMenuOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white"
               >
                 <LogIn className="h-4 w-4" />
                 Coach / Admin Login
@@ -104,60 +97,14 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-charcoal-800 bg-charcoal-900">
-        <div className="h-1 bg-gradient-to-r from-brand-500 via-brand-600 to-gold-400" aria-hidden="true" />
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
+      <footer className="border-t border-white/10 bg-white/[0.02]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 md:grid-cols-3">
           <div>
             <Logo size={48} withWordmark />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-zinc-400">
               Building Better Players. Building Better People. A youth football
               academy in Thane, developing players from grassroots to youth
               football.
-            </p>
-            <a
-              href="https://www.instagram.com/vk_football_academy"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 inline-flex items-center gap-2.5 rounded-xl border border-charcoal-700 bg-charcoal-800 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-brand-500 hover:text-white"
-            >
-              <InstagramIcon className="h-4 w-4 text-brand-500" />
-              @vk_football_academy
-            </a>
-          </div>
-          <div>
-            <h3 className="font-display text-sm font-semibold tracking-widest text-zinc-200 uppercase">
-              Explore
-            </h3>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {NAV.map((item) => (
-                <li key={item.to}>
-                  <Link to={item.to} className="text-zinc-400 transition hover:text-gold-400">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link to="/login" className="text-zinc-400 transition hover:text-gold-400">
-                  Coach / Admin Login
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-display text-sm font-semibold tracking-widest text-zinc-200 uppercase">
-              Programmes
-            </h3>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {PROGRAMME_LINKS.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.to} className="text-zinc-400 transition hover:text-gold-400">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-xs leading-relaxed text-zinc-500">
-              Ages 5–18 · Boys &amp; Girls · AIFF &amp; AFC Licensed Coaches
             </p>
           </div>
           <div>
@@ -182,19 +129,33 @@ export default function PublicLayout() {
                 <Mail className="h-4 w-4 shrink-0 text-brand-500" />
                 <a
                   href="mailto:vkfootballacademy@gmail.com"
-                  className="break-all hover:text-white"
+                  className="hover:text-white"
                 >
                   vkfootballacademy@gmail.com
                 </a>
               </li>
-              <li className="text-xs leading-relaxed text-zinc-500">
-                Training at Urban Turf, Rustomjee Urbania. Open daily, 12:00–8:00
-                pm (as listed).
-              </li>
             </ul>
           </div>
+          <div>
+            <h3 className="font-display text-sm font-semibold tracking-widest text-zinc-200 uppercase">
+              Follow the academy
+            </h3>
+            <a
+              href="https://www.instagram.com/vk_football_academy"
+              target="_blank"
+              rel="noreferrer"
+              className="glass mt-4 inline-flex items-center gap-2.5 rounded-full px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-gold-500/40 hover:text-white"
+            >
+              <InstagramIcon className="h-4 w-4 text-brand-500" />
+              @vk_football_academy
+            </a>
+            <p className="mt-4 text-xs leading-relaxed text-zinc-500">
+              Training at Urban Turf, Rustomjee Urbania. Open daily, 12:00–8:00
+              pm (as listed).
+            </p>
+          </div>
         </div>
-        <div className="border-t border-charcoal-800 py-5 text-center text-xs text-zinc-500">
+        <div className="border-t border-white/10 py-5 text-center text-xs text-zinc-500">
           © {new Date().getFullYear()} VK Football Academy, Thane. Develop.
           Compete. Excel.
         </div>

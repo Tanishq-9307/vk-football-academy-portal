@@ -226,7 +226,7 @@ export default function Matches() {
     return (
       <li
         key={m.id}
-        className="card px-5 py-4"
+        className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -252,7 +252,7 @@ export default function Matches() {
                 {m.home_score} – {m.away_score}
               </p>
             ) : (
-              <span className="rounded-full bg-charcoal-800 px-3 py-1 text-xs font-semibold text-zinc-300">
+              <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-semibold text-zinc-300">
                 {MATCH_STATUS_LABELS[m.status]}
               </span>
             )}
@@ -271,7 +271,7 @@ export default function Matches() {
                   type="button"
                   onClick={() => openEdit(m)}
                   aria-label={`Edit ${m.opponent}`}
-                  className="rounded-lg border border-charcoal-600 bg-charcoal-800 p-1.5 text-zinc-300 hover:bg-charcoal-700"
+                  className="rounded-lg border border-white/15 bg-white/[0.06] p-1.5 text-zinc-300 hover:bg-white/[0.08]"
                 >
                   <Pencil className="h-3.5 w-3.5" />
                 </button>
@@ -297,7 +297,7 @@ export default function Matches() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Matches
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -317,10 +317,10 @@ export default function Matches() {
       {formOpen && canManage && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               {editing
                 ? editing.status === 'scheduled' && form.status === 'completed'
                   ? 'Record result'
@@ -331,7 +331,7 @@ export default function Matches() {
               type="button"
               onClick={() => setFormOpen(false)}
               aria-label="Close form"
-              className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+              className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>
@@ -349,7 +349,7 @@ export default function Matches() {
               <select
                 value={form.team_id}
                 onChange={(e) => setForm({ ...form, team_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 {teams.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -367,7 +367,7 @@ export default function Matches() {
                 value={form.opponent}
                 onChange={(e) => setForm({ ...form, opponent: e.target.value })}
                 placeholder="e.g. Reliance Young Champs"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -378,7 +378,7 @@ export default function Matches() {
                 type="date"
                 value={form.match_date}
                 onChange={(e) => setForm({ ...form, match_date: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -389,7 +389,7 @@ export default function Matches() {
                 type="time"
                 value={form.start_time}
                 onChange={(e) => setForm({ ...form, start_time: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -401,7 +401,7 @@ export default function Matches() {
                 value={form.venue}
                 onChange={(e) => setForm({ ...form, venue: e.target.value })}
                 placeholder="Urban Turf"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -413,7 +413,7 @@ export default function Matches() {
                 onChange={(e) =>
                   setForm({ ...form, status: e.target.value as MatchStatus })
                 }
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 <option value="scheduled">Scheduled</option>
                 <option value="completed">Completed</option>
@@ -430,7 +430,7 @@ export default function Matches() {
                 step={1}
                 value={form.home_score}
                 onChange={(e) => setForm({ ...form, home_score: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -443,7 +443,7 @@ export default function Matches() {
                 step={1}
                 value={form.away_score}
                 onChange={(e) => setForm({ ...form, away_score: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -455,7 +455,7 @@ export default function Matches() {
                 value={form.goals}
                 onChange={(e) => setForm({ ...form, goals: e.target.value })}
                 placeholder="e.g. Aarav 2, Kabir 1"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block sm:col-span-2">
@@ -466,7 +466,7 @@ export default function Matches() {
                 rows={2}
                 value={form.observations}
                 onChange={(e) => setForm({ ...form, observations: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
           </div>
@@ -486,7 +486,7 @@ export default function Matches() {
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           aria-label="Filter by team"
-          className="field"
+          className="rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         >
           <option value="all">All teams</option>
           {teams.map((t) => (
@@ -499,7 +499,7 @@ export default function Matches() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           aria-label="Filter by status"
-          className="field"
+          className="rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         >
           <option value="all">All statuses</option>
           <option value="scheduled">Scheduled</option>
@@ -511,7 +511,7 @@ export default function Matches() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search opponent, team or venue…"
-          className="min-w-48 flex-1 field"
+          className="min-w-48 flex-1 rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         />
       </div>
 
@@ -530,7 +530,7 @@ export default function Matches() {
         <>
           {upcoming.length > 0 && (
             <section className="mt-8">
-              <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+              <h2 className="font-display text-xl font-medium tracking-normal text-white">
                 Upcoming fixtures
               </h2>
               <ul className="mt-4 space-y-3">{upcoming.map(renderMatch)}</ul>
@@ -538,7 +538,7 @@ export default function Matches() {
           )}
           {played.length > 0 && (
             <section className="mt-8">
-              <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+              <h2 className="font-display text-xl font-medium tracking-normal text-white">
                 Results &amp; history
               </h2>
               <ul className="mt-4 space-y-3">{played.map(renderMatch)}</ul>

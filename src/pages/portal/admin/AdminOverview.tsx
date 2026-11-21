@@ -135,7 +135,7 @@ export default function AdminOverview() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         Admin Overview
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -143,7 +143,7 @@ export default function AdminOverview() {
       </p>
 
       <section className="mt-6">
-        <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display text-xl font-medium tracking-normal text-white">
           Teams
         </h2>
         {summaries.length === 0 ? (
@@ -154,10 +154,10 @@ export default function AdminOverview() {
             />
           </div>
         ) : (
-          <div className="mt-4 table-shell">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full min-w-[560px] text-left text-sm">
               <thead>
-                <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
+                <tr className="border-b border-white/10 bg-white/[0.03] text-xs tracking-widest text-zinc-400 uppercase">
                   <th className="px-4 py-3">Team</th>
                   <th className="px-4 py-3">Coach</th>
                   <th className="px-4 py-3">Players</th>
@@ -165,7 +165,7 @@ export default function AdminOverview() {
                   <th className="px-4 py-3">Attendance</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-charcoal-700">
+              <tbody className="divide-y divide-white/10 bg-white/[0.04]">
                 {summaries.map((s) => (
                   <tr key={s.team.id}>
                     <td className="px-4 py-3 font-medium text-white">
@@ -202,7 +202,7 @@ export default function AdminOverview() {
 
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Fees
           </h2>
           <Link
@@ -232,7 +232,7 @@ export default function AdminOverview() {
 
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Matches
           </h2>
           <Link
@@ -254,7 +254,7 @@ export default function AdminOverview() {
                 {upcomingMatches.map((m) => (
                   <li
                     key={m.id}
-                    className="flex items-center gap-2 card px-4 py-3 text-sm"
+                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.045] backdrop-blur-xl px-4 py-3 text-sm"
                   >
                     <span className="font-semibold text-white">{m.team?.name}</span>
                     <span className="text-zinc-400">vs {m.opponent}</span>
@@ -278,7 +278,7 @@ export default function AdminOverview() {
                 {recentResults.map((m) => (
                   <li
                     key={m.id}
-                    className="flex items-center gap-2 card px-4 py-3 text-sm"
+                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.045] backdrop-blur-xl px-4 py-3 text-sm"
                   >
                     <span className="font-semibold text-white">{m.team?.name}</span>
                     <span className="text-zinc-400">vs {m.opponent}</span>
@@ -298,7 +298,7 @@ export default function AdminOverview() {
 
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Latest session plans
           </h2>
           <Link
@@ -321,7 +321,7 @@ export default function AdminOverview() {
               <li key={p.id}>
                 <Link
                   to={`/portal/plans/${p.id}`}
-                  className="block card card-hover px-5 py-4"
+                  className="block rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4 transition hover:border-gold-500/40"
                 >
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
                     {p.title}

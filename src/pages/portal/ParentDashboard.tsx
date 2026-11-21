@@ -98,7 +98,7 @@ export default function ParentDashboard() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         Parent dashboard
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -149,7 +149,7 @@ export default function ParentDashboard() {
         </div>
       ) : (
         <section className="mt-8">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             My children
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -158,7 +158,7 @@ export default function ParentDashboard() {
                 <Link
                   key={child.id}
                   to={`/portal/children/${child.id}`}
-                  className="card card-hover p-5"
+                  className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
                 >
                   <p className="flex items-center gap-2 font-semibold text-white">
                     <Baby className="h-4 w-4 text-brand-400" />
@@ -180,7 +180,7 @@ export default function ParentDashboard() {
 
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Upcoming sessions
           </h2>
           <Link
@@ -202,7 +202,7 @@ export default function ParentDashboard() {
             {upcoming.map((s) => (
               <li
                 key={s.id}
-                className="flex flex-wrap items-center justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <div>
                   <p className="font-semibold text-white">
@@ -214,7 +214,7 @@ export default function ParentDashboard() {
                     {s.pitch ? ` · ${s.pitch}` : ''}
                   </p>
                 </div>
-                <span className="rounded-full bg-charcoal-800 px-3 py-1 text-xs font-semibold text-zinc-300">
+                <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-semibold text-zinc-300">
                   {s.category}
                 </span>
               </li>
@@ -226,7 +226,7 @@ export default function ParentDashboard() {
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           to="/portal/matches"
-          className="flex items-start gap-4 card card-hover p-5"
+          className="flex items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
         >
           <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <Trophy className="h-5 w-5" />
@@ -240,7 +240,7 @@ export default function ParentDashboard() {
         </Link>
         <Link
           to="/portal/fees"
-          className="flex items-start gap-4 card card-hover p-5"
+          className="flex items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
         >
           <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <Wallet className="h-5 w-5" />
@@ -254,7 +254,7 @@ export default function ParentDashboard() {
         </Link>
         <Link
           to="/portal/announcements"
-          className="flex items-start gap-4 card card-hover p-5"
+          className="flex items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 transition hover:border-gold-500/40"
         >
           <span className="rounded-xl bg-brand-500/15 p-3 text-brand-400">
             <Megaphone className="h-5 w-5" />
@@ -271,7 +271,7 @@ export default function ParentDashboard() {
       {announcements.length > 0 && (
         <section className="mt-8">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               Latest announcements
             </h2>
             <Link
@@ -285,7 +285,7 @@ export default function ParentDashboard() {
             {announcements.map((a) => (
               <li
                 key={a.id}
-                className="card px-5 py-4"
+                className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <p className="flex items-center gap-2 font-semibold text-white">
                   <CalendarDays className="h-4 w-4 text-brand-400" />

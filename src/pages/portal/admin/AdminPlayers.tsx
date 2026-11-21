@@ -162,7 +162,7 @@ export default function AdminPlayers() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Manage Players
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -180,23 +180,23 @@ export default function AdminPlayers() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search players or parents…"
-        className="mt-6 field"
+        className="mt-6 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
       />
 
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               {editing ? 'Edit player' : 'Add player'}
             </h2>
             <button
               type="button"
               onClick={() => setFormOpen(false)}
               aria-label="Close form"
-              className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+              className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>
@@ -215,7 +215,7 @@ export default function AdminPlayers() {
                 type="text"
                 value={form.full_name}
                 onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -226,7 +226,7 @@ export default function AdminPlayers() {
                 type="date"
                 value={form.date_of_birth}
                 onChange={(e) => setForm({ ...form, date_of_birth: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -236,7 +236,7 @@ export default function AdminPlayers() {
               <select
                 value={form.age_group}
                 onChange={(e) => setForm({ ...form, age_group: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 <option value="">Not set</option>
                 {AGE_GROUPS.map((g) => (
@@ -255,7 +255,7 @@ export default function AdminPlayers() {
                 value={form.position}
                 onChange={(e) => setForm({ ...form, position: e.target.value })}
                 placeholder="e.g. Midfielder"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -266,7 +266,7 @@ export default function AdminPlayers() {
                 type="text"
                 value={form.parent_name}
                 onChange={(e) => setForm({ ...form, parent_name: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -277,7 +277,7 @@ export default function AdminPlayers() {
                 type="tel"
                 value={form.parent_phone}
                 onChange={(e) => setForm({ ...form, parent_phone: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
           </div>
@@ -306,7 +306,7 @@ export default function AdminPlayers() {
             return (
               <li
                 key={p.id}
-                className="flex flex-wrap items-start justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-start justify-between gap-3 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <div>
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">

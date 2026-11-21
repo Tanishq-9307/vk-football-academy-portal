@@ -14,7 +14,7 @@ export default function NotConfigured() {
       <span className="mt-8 inline-flex rounded-2xl bg-brand-500/15 p-4 text-brand-400">
         <DatabaseZap className="h-8 w-8" />
       </span>
-      <h1 className="font-display mt-5 text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display mt-5 text-3xl font-medium tracking-normal text-white">
         Supabase not configured yet
       </h1>
       <p className="mt-4 leading-relaxed text-zinc-300">
@@ -22,12 +22,12 @@ export default function NotConfigured() {
         needs a Supabase project to store its data. The database connection
         has not been set up yet.
       </p>
-      <div className="mt-6 w-full rounded-2xl border border-charcoal-700 bg-charcoal-850 p-5 text-left text-sm leading-relaxed text-zinc-400">
+      <div className="mt-6 w-full rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5 text-left text-sm leading-relaxed text-zinc-400">
         <p className="font-semibold text-zinc-200">For the person setting this up:</p>
         <ol className="mt-2 list-decimal space-y-1.5 pl-5">
-          <li>Create a Supabase project and run <code className="rounded bg-charcoal-800 px-1.5 py-0.5 text-zinc-200">supabase/schema.sql</code> in its SQL editor.</li>
-          <li>Copy the project URL and anon key into <code className="rounded bg-charcoal-800 px-1.5 py-0.5 text-zinc-200">.env</code> as <code className="rounded bg-charcoal-800 px-1.5 py-0.5 text-zinc-200">VITE_SUPABASE_URL</code> and <code className="rounded bg-charcoal-800 px-1.5 py-0.5 text-zinc-200">VITE_SUPABASE_ANON_KEY</code>.</li>
-          <li>Restart the app. See <code className="rounded bg-charcoal-800 px-1.5 py-0.5 text-zinc-200">README.md</code> for the full setup steps.</li>
+          <li>Create a Supabase project and run <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-zinc-200">supabase/schema.sql</code> in its SQL editor.</li>
+          <li>Copy the project URL and anon key into <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-zinc-200">.env</code> as <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-zinc-200">VITE_SUPABASE_URL</code> and <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-zinc-200">VITE_SUPABASE_ANON_KEY</code>.</li>
+          <li>Restart the app. See <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-zinc-200">README.md</code> for the full setup steps.</li>
         </ol>
       </div>
       <Link

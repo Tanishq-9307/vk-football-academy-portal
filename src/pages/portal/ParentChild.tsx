@@ -110,7 +110,7 @@ export default function ParentChild() {
   if (!child) {
     return (
       <div>
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+        <h1 className="font-display text-3xl font-medium tracking-normal text-white">
           Child not found
         </h1>
         <p className="mt-2 text-sm text-zinc-400">
@@ -146,7 +146,7 @@ export default function ParentChild() {
       >
         ← My Children
       </Link>
-      <h1 className="font-display mt-3 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display mt-3 flex flex-wrap items-center gap-3 text-3xl font-medium tracking-normal text-white">
         {child.full_name}
         {child.is_demo && <DemoBadge />}
       </h1>
@@ -191,7 +191,7 @@ export default function ParentChild() {
 
       {/* Upcoming training */}
       <section className="mt-8">
-        <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display text-xl font-medium tracking-normal text-white">
           Upcoming training
         </h2>
         {upcoming.length === 0 ? (
@@ -206,7 +206,7 @@ export default function ParentChild() {
             {upcoming.map((s) => (
               <li
                 key={s.id}
-                className="card px-5 py-4"
+                className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <p className="font-semibold text-white">
                   {s.title ?? `${s.category} session`}
@@ -224,7 +224,7 @@ export default function ParentChild() {
 
       {/* Attendance history */}
       <section className="mt-8">
-        <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display text-xl font-medium tracking-normal text-white">
           Attendance history
         </h2>
         {records.length === 0 ? (
@@ -235,15 +235,15 @@ export default function ParentChild() {
             />
           </div>
         ) : (
-          <div className="mt-4 table-shell">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full min-w-[520px] text-left text-sm">
               <thead>
-                <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
+                <tr className="border-b border-white/10 bg-white/[0.03] text-xs tracking-widest text-zinc-400 uppercase">
                   <th className="px-4 py-3">Marked</th>
                   <th className="px-4 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-charcoal-700">
+              <tbody className="divide-y divide-white/10 bg-white/[0.04]">
                 {records.map((r) => (
                   <tr key={r.id}>
                     <td className="px-4 py-3 text-zinc-300">
@@ -270,7 +270,7 @@ export default function ParentChild() {
 
       {/* Development reports */}
       <section className="mt-8">
-        <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display text-xl font-medium tracking-normal text-white">
           Development reports
         </h2>
         {reports.length === 0 ? (
@@ -287,7 +287,7 @@ export default function ParentChild() {
               return (
                 <li
                   key={rep.id}
-                  className="card p-5"
+                  className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5"
                 >
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
                     Assessment — {formatDate(rep.assessment_date)}
@@ -304,7 +304,7 @@ export default function ParentChild() {
                       return (
                         <div
                           key={area.key}
-                          className="rounded-xl border border-charcoal-700 bg-charcoal-900 px-4 py-3"
+                          className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3"
                         >
                           <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
                             {area.label}
@@ -360,7 +360,7 @@ export default function ParentChild() {
       {/* Fees */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Fees
           </h2>
           <Link
@@ -378,10 +378,10 @@ export default function ParentChild() {
             />
           </div>
         ) : (
-          <div className="mt-4 table-shell">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full min-w-[560px] text-left text-sm">
               <thead>
-                <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
+                <tr className="border-b border-white/10 bg-white/[0.03] text-xs tracking-widest text-zinc-400 uppercase">
                   <th className="px-4 py-3">Fee</th>
                   <th className="px-4 py-3">Due</th>
                   <th className="px-4 py-3">Paid</th>
@@ -389,7 +389,7 @@ export default function ParentChild() {
                   <th className="px-4 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-charcoal-700">
+              <tbody className="divide-y divide-white/10 bg-white/[0.04]">
                 {fees.map((f) => {
                   const status = feeStatus(
                     f.amount_due,
@@ -430,7 +430,7 @@ export default function ParentChild() {
 
       {/* Matches */}
       <section className="mt-8">
-        <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+        <h2 className="font-display text-xl font-medium tracking-normal text-white">
           Matches
         </h2>
         {matches.length === 0 ? (
@@ -445,7 +445,7 @@ export default function ParentChild() {
             {matches.map((m) => (
               <li
                 key={m.id}
-                className="flex flex-wrap items-center justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <div>
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
@@ -466,7 +466,7 @@ export default function ParentChild() {
                       {m.home_score} – {m.away_score}
                     </p>
                   ) : (
-                    <span className="rounded-full bg-charcoal-800 px-3 py-1 text-xs font-semibold text-zinc-300">
+                    <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-semibold text-zinc-300">
                       {MATCH_STATUS_LABELS[m.status]}
                     </span>
                   )}

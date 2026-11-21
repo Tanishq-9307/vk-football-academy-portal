@@ -264,7 +264,7 @@ export default function Development() {
             })
           }
           placeholder="—"
-          className="field"
+          className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         />
       </label>
     )
@@ -274,7 +274,7 @@ export default function Development() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Player Development
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -298,7 +298,7 @@ export default function Development() {
           <select
             value={playerId}
             onChange={(e) => setPlayerId(e.target.value)}
-            className="mt-2 w-full max-w-md field"
+            className="mt-2 w-full max-w-md rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
           >
             {players.map((p) => (
               <option key={p.id} value={p.id}>
@@ -313,10 +313,10 @@ export default function Development() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               {editing ? 'Edit assessment' : 'New assessment'} —{' '}
               {selectedPlayer?.full_name}
             </h2>
@@ -324,7 +324,7 @@ export default function Development() {
               type="button"
               onClick={() => setFormOpen(false)}
               aria-label="Close form"
-              className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+              className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>
@@ -343,7 +343,7 @@ export default function Development() {
                 type="date"
                 value={form.assessment_date}
                 onChange={(e) => setForm({ ...form, assessment_date: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -353,7 +353,7 @@ export default function Development() {
               <select
                 value={form.training_session_id}
                 onChange={(e) => setForm({ ...form, training_session_id: e.target.value })}
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 <option value="">No session linked</option>
                 {sessions.map((s) => (
@@ -390,7 +390,7 @@ export default function Development() {
                   rows={2}
                   value={form[key]}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
             ))}
@@ -430,8 +430,8 @@ export default function Development() {
                   onClick={() => setSelected(rep)}
                   className={`w-full rounded-2xl border px-5 py-4 text-left transition ${
                     selected?.id === rep.id
-                      ? 'border-brand-500/70 bg-charcoal-850'
-                      : 'border-charcoal-700 bg-charcoal-850 hover:border-brand-500/60'
+                      ? 'border-brand-500/70 bg-white/[0.04]'
+                      : 'border-white/10 bg-white/[0.045] backdrop-blur-xl hover:border-gold-500/40'
                   }`}
                 >
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
@@ -455,10 +455,10 @@ export default function Development() {
 
           <div className="lg:col-span-3">
             {selected ? (
-              <div className="card p-6">
+              <div className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+                    <h2 className="font-display text-xl font-medium tracking-normal text-white">
                       Assessment — {formatDate(selected.assessment_date)}
                     </h2>
                     <p className="mt-1 text-sm text-zinc-400">
@@ -499,7 +499,7 @@ export default function Development() {
                     return (
                       <div
                         key={area.key}
-                        className="rounded-xl border border-charcoal-700 bg-charcoal-900 px-4 py-3"
+                        className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3"
                       >
                         <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
                           {area.label}

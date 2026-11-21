@@ -115,7 +115,7 @@ export default function AdminAnnouncements() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Manage Announcements
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -132,17 +132,17 @@ export default function AdminAnnouncements() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-6 card p-6"
+          className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+            <h2 className="font-display text-xl font-medium tracking-normal text-white">
               {editing ? 'Edit announcement' : 'New announcement'}
             </h2>
             <button
               type="button"
               onClick={() => setFormOpen(false)}
               aria-label="Close form"
-              className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+              className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>
@@ -162,7 +162,7 @@ export default function AdminAnnouncements() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Trial dates for U12"
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
             <label className="block">
@@ -174,7 +174,7 @@ export default function AdminAnnouncements() {
                 onChange={(e) =>
                   setAudience(e.target.value as AnnouncementAudience)
                 }
-                className="field"
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               >
                 {AUDIENCES.map((a) => (
                   <option key={a} value={a}>
@@ -192,7 +192,7 @@ export default function AdminAnnouncements() {
                 onChange={(e) => setBody(e.target.value)}
                 rows={5}
                 placeholder="Write the announcement…"
-                className="mt-2 w-full resize-y field"
+                className="mt-2 w-full resize-y rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
               />
             </label>
           </div>
@@ -219,7 +219,7 @@ export default function AdminAnnouncements() {
           {announcements.map((a) => (
             <li
               key={a.id}
-              className="card p-5"
+              className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>

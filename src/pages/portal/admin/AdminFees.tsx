@@ -319,7 +319,7 @@ export default function AdminFees() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         Manage Fees
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -342,7 +342,7 @@ export default function AdminFees() {
       {/* Fee structures */}
       <section className="mt-8">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Fee structures
           </h2>
           <PrimaryButton onClick={openStructureCreate}>
@@ -354,17 +354,17 @@ export default function AdminFees() {
         {sFormOpen && (
           <form
             onSubmit={handleStructureSubmit}
-            className="mt-4 card p-6"
+            className="mt-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-display text-lg font-semibold tracking-wide text-white uppercase">
+              <h3 className="font-display text-lg font-medium tracking-normal text-white">
                 {editingStructure ? 'Edit fee structure' : 'New fee structure'}
               </h3>
               <button
                 type="button"
                 onClick={() => setSFormOpen(false)}
                 aria-label="Close form"
-                className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+                className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -384,7 +384,7 @@ export default function AdminFees() {
                   value={sForm.name}
                   onChange={(e) => setSForm({ ...sForm, name: e.target.value })}
                   placeholder="e.g. Term Fee — U14"
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block">
@@ -394,7 +394,7 @@ export default function AdminFees() {
                 <select
                   value={sForm.age_group}
                   onChange={(e) => setSForm({ ...sForm, age_group: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 >
                   <option value="">All age groups</option>
                   {AGE_GROUPS.map((g) => (
@@ -415,7 +415,7 @@ export default function AdminFees() {
                   value={sForm.amount}
                   onChange={(e) => setSForm({ ...sForm, amount: e.target.value })}
                   placeholder="4500"
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block">
@@ -426,7 +426,7 @@ export default function AdminFees() {
                   type="date"
                   value={sForm.due_date}
                   onChange={(e) => setSForm({ ...sForm, due_date: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block sm:col-span-2">
@@ -437,7 +437,7 @@ export default function AdminFees() {
                   type="text"
                   value={sForm.description}
                   onChange={(e) => setSForm({ ...sForm, description: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
             </div>
@@ -464,7 +464,7 @@ export default function AdminFees() {
             {structures.map((s) => (
               <li
                 key={s.id}
-                className="flex flex-wrap items-center justify-between gap-3 card px-5 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <div>
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-white">
@@ -505,7 +505,7 @@ export default function AdminFees() {
       {/* Payment records */}
       <section className="mt-10">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <h2 className="font-display text-xl font-semibold tracking-wide text-white uppercase">
+          <h2 className="font-display text-xl font-medium tracking-normal text-white">
             Payment records
           </h2>
           <PrimaryButton
@@ -520,17 +520,17 @@ export default function AdminFees() {
         {rFormOpen && (
           <form
             onSubmit={handleRecordSubmit}
-            className="mt-4 card p-6"
+            className="mt-4 rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-6"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-display text-lg font-semibold tracking-wide text-white uppercase">
+              <h3 className="font-display text-lg font-medium tracking-normal text-white">
                 {editingRecord ? 'Edit payment record' : 'Record payment'}
               </h3>
               <button
                 type="button"
                 onClick={() => setRFormOpen(false)}
                 aria-label="Close form"
-                className="rounded-lg p-2 text-zinc-400 hover:bg-charcoal-800 hover:text-white"
+                className="rounded-lg p-2 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -548,7 +548,7 @@ export default function AdminFees() {
                 <select
                   value={rForm.player_id}
                   onChange={(e) => setRForm({ ...rForm, player_id: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 >
                   {players.map((p) => (
                     <option key={p.id} value={p.id}>
@@ -565,7 +565,7 @@ export default function AdminFees() {
                 <select
                   value={rForm.fee_structure_id}
                   onChange={(e) => onStructurePick(e.target.value)}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 >
                   <option value="">No structure — ad-hoc fee</option>
                   {structures.map((s) => (
@@ -585,7 +585,7 @@ export default function AdminFees() {
                   step="0.01"
                   value={rForm.amount_due}
                   onChange={(e) => setRForm({ ...rForm, amount_due: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block">
@@ -598,7 +598,7 @@ export default function AdminFees() {
                   step="0.01"
                   value={rForm.amount_paid}
                   onChange={(e) => setRForm({ ...rForm, amount_paid: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block">
@@ -609,7 +609,7 @@ export default function AdminFees() {
                   type="date"
                   value={rForm.payment_date}
                   onChange={(e) => setRForm({ ...rForm, payment_date: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block">
@@ -619,7 +619,7 @@ export default function AdminFees() {
                 <select
                   value={rForm.payment_method}
                   onChange={(e) => setRForm({ ...rForm, payment_method: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 >
                   <option value="">Not recorded</option>
                   {PAYMENT_METHODS.map((m) => (
@@ -637,7 +637,7 @@ export default function AdminFees() {
                   type="text"
                   value={rForm.receipt_no}
                   onChange={(e) => setRForm({ ...rForm, receipt_no: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
               <label className="block">
@@ -648,7 +648,7 @@ export default function AdminFees() {
                   type="text"
                   value={rForm.notes}
                   onChange={(e) => setRForm({ ...rForm, notes: e.target.value })}
-                  className="field"
+                  className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
                 />
               </label>
             </div>
@@ -668,7 +668,7 @@ export default function AdminFees() {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             aria-label="Filter by status"
-            className="field"
+            className="rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
           >
             <option value="all">All statuses</option>
             <option value="pending">Pending</option>
@@ -681,7 +681,7 @@ export default function AdminFees() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search player, fee or receipt…"
-            className="min-w-48 flex-1 field"
+            className="min-w-48 flex-1 rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
           />
         </div>
 
@@ -693,10 +693,10 @@ export default function AdminFees() {
             />
           </div>
         ) : (
-          <div className="mt-4 table-shell">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full min-w-[720px] text-left text-sm">
               <thead>
-                <tr className="border-b border-charcoal-700 bg-charcoal-900 text-xs tracking-widest text-zinc-400 uppercase">
+                <tr className="border-b border-white/10 bg-white/[0.03] text-xs tracking-widest text-zinc-400 uppercase">
                   <th className="px-4 py-3">Player / Fee</th>
                   <th className="px-4 py-3">Due</th>
                   <th className="px-4 py-3">Paid</th>
@@ -705,7 +705,7 @@ export default function AdminFees() {
                   <th className="px-4 py-3">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-charcoal-700">
+              <tbody className="divide-y divide-white/10 bg-white/[0.04]">
                 {filteredRecords.map((r) => {
                   const status = feeStatus(
                     r.amount_due,

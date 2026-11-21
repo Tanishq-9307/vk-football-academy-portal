@@ -66,7 +66,7 @@ export default function ParentFees() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+      <h1 className="font-display text-3xl font-medium tracking-normal text-white">
         Fees
       </h1>
       <p className="mt-1 text-sm text-zinc-400">
@@ -90,7 +90,7 @@ export default function ParentFees() {
             <select
               value={childFilter}
               onChange={(e) => setChildFilter(e.target.value)}
-              className="mt-2 w-full max-w-xs field"
+              className="mt-2 w-full max-w-xs rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
             >
               <option value="all">All children</option>
               {children.map((c) => (
@@ -121,7 +121,7 @@ export default function ParentFees() {
             return (
               <div
                 key={r.id}
-                className="card px-5 py-4"
+                className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>

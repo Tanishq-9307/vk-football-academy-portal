@@ -115,7 +115,7 @@ export function SessionPlansList() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display text-3xl font-medium tracking-normal text-white">
             Session Plans
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
@@ -136,13 +136,13 @@ export function SessionPlansList() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search plans…"
-          className="min-w-56 flex-1 field"
+          className="min-w-56 flex-1 rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-gold-500/60 focus:outline-none"
         />
         <select
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           aria-label="Filter by team"
-          className="rounded-xl border border-charcoal-600 bg-charcoal-900 px-3 py-2.5 text-sm text-white focus:border-brand-500 focus:outline-none"
+          className="rounded-xl border border-white/15 bg-white/[0.03] px-3 py-2.5 text-sm text-white focus:border-gold-500/60 focus:outline-none"
         >
           <option value="all">All teams</option>
           {teams.map((t) => (
@@ -173,7 +173,7 @@ export function SessionPlansList() {
           {filtered.map((p) => (
             <li
               key={p.id}
-              className="card px-5 py-4"
+              className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl px-5 py-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <Link to={`/portal/plans/${p.id}`} className="min-w-0 flex-1">
@@ -298,7 +298,7 @@ export function PlanView() {
       </Link>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display flex flex-wrap items-center gap-2 text-3xl font-semibold tracking-wide text-white uppercase">
+          <h1 className="font-display flex flex-wrap items-center gap-2 text-3xl font-medium tracking-normal text-white">
             {plan.title}
             {plan.is_demo && <DemoBadge />}
           </h1>
@@ -359,7 +359,7 @@ export function PlanView() {
           {filledSections.map((f) => (
             <section
               key={f.key}
-              className="card p-5"
+              className="rounded-3xl border border-white/10 bg-white/[0.045] shadow-[0_10px_36px_rgba(0,0,0,0.28)] backdrop-blur-xl p-5"
             >
               <h2 className="text-xs font-semibold tracking-widest text-brand-400 uppercase">
                 {f.label}
