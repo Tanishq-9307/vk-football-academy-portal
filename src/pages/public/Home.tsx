@@ -1,21 +1,21 @@
-import { lazy } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
-  Award,
-  ClipboardList,
   GraduationCap,
   MapPin,
+  MessageCircle,
+  Phone,
   Shield,
   Target,
   Trophy,
   Users,
 } from 'lucide-react'
 import Logo from '../../components/Logo'
-import { Reveal, TiltCard } from '../../components/ui'
-import { ThreeStage } from '../../components/three/ThreeStage'
+import { CountUp, Magnetic, Reveal, TiltCard } from '../../components/ui'
+import Preloader from '../../components/Preloader'
 
-const HeroScene = lazy(() => import('../../components/three/HeroScene'))
+const ScrollBall = lazy(() => import('../../components/three/ScrollBall'))
 
 const VALUES = [
   {
@@ -36,29 +36,44 @@ const VALUES = [
 ]
 
 const AGE_GROUPS = [
-  { group: 'U12', focus: 'First touch, 1v1 confidence and love of the game.', tag: 'Foundations' },
-  { group: 'U14', focus: 'Technique under pressure, small-sided decisions, teamwork.', tag: 'Development' },
-  { group: 'U16', focus: 'Tactical understanding, positional play and physical development.', tag: 'Performance' },
-  { group: 'U18', focus: 'Performance football — preparing players for senior and higher-level pathways.', tag: 'Pathway' },
+  {
+    group: 'U12',
+    ages: 'Ages 11–12',
+    focus: 'First touch, 1v1 confidence and love of the game.',
+    tag: 'Foundations',
+  },
+  {
+    group: 'U14',
+    ages: 'Ages 13–14',
+    focus: 'Technique under pressure, small-sided decisions, teamwork.',
+    tag: 'Development',
+  },
+  {
+    group: 'U16',
+    ages: 'Ages 15–16',
+    focus: 'Tactical understanding, positional play and physical development.',
+    tag: 'Performance',
+  },
+  {
+    group: 'U18',
+    ages: 'Ages 17–18',
+    focus: 'Performance football — preparing players for senior and higher-level pathways.',
+    tag: 'Pathway',
+  },
 ]
 
-const MARQUEE = [
-  'Develop',
-  'Compete',
-  'Excel',
-  'Discipline',
-  'Development',
-  'Dedication',
+const STORY_BLOCKS = [
+  'Sharvil Deorukhkar signed for CD Chamartín Vergara Alcobendas, Madrid.',
+  'He is playing U13 División de Honor Infantil (RFFM) in the 2026/27 season.',
+  'From grassroots football in Thane to competitive youth football in Spain — proof of what the academy’s pathway can produce.',
 ]
 
-function HeroFallback() {
+const MARQUEE = ['Discipline', 'Development', 'Dedication']
+
+function BallFallback() {
   return (
-    <div className="flex h-full items-center justify-center">
-      <div className="animate-float-slow relative">
-        <div
-          className="absolute inset-0 -z-10 scale-125 rounded-full bg-brand-500/25 blur-3xl"
-          aria-hidden="true"
-        />
+    <div className="flex items-center justify-center py-6">
+      <div className="animate-float-slow">
         <Logo size={260} />
       </div>
     </div>
@@ -66,59 +81,83 @@ function HeroFallback() {
 }
 
 export default function Home() {
+  // Preloader shows once per session; the hero headline rises out of its
+  // masks as the wipe lifts.
+  const [showPreloader, setShowPreloader] = useState(() => {
+    try {
+      return window.sessionStorage.getItem('vkfa-preloader-seen') === null
+    } catch {
+      return true
+    }
+  })
+  const [ready, setReady] = useState(!showPreloader)
+
+  const handlePreloaderDone = useCallback(() => {
+    setReady(true)
+    try {
+      window.sessionStorage.setItem('vkfa-preloader-seen', '1')
+    } catch {
+      /* session storage unavailable — preloader simply shows again */
+    }
+    window.setTimeout(() => setShowPreloader(false), 850)
+  }, [])
+
+  // Keep the page at the top while the preloader is up.
+  useEffect(() => {
+    if (showPreloader) window.scrollTo(0, 0)
+  }, [showPreloader])
+
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-charcoal-800">
-        <div
-          className="pointer-events-none absolute inset-0"
-          aria-hidden="true"
-          style={{
-            background:
-              'radial-gradient(55% 70% at 82% 8%, rgba(227,6,19,0.30) 0%, transparent 62%), radial-gradient(45% 55% at 8% 95%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(50% 60% at 10% 100%, rgba(227,6,19,0.12) 0%, transparent 60%)',
-          }}
-        />
-        <div className="pitch-lines pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
-        <p
-          className="ghost-word pointer-events-none absolute -bottom-6 left-0 hidden text-[22vw] select-none lg:block"
-          aria-hidden="true"
-        >
-          VKFA
-        </p>
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:py-24">
+    <div id="home-root" className="relative">
+      {showPreloader && <Preloader onDone={handlePreloaderDone} />}
+
+      {/* Hero — 100svh. The 3D ball is a fixed stage (see ScrollBall):
+          on desktop it sits in front of the headline, on the right; on
+          mobile it stacks below the headline in the reserved slot. */}
+      <section className="relative min-h-svh overflow-hidden">
+        <div className="relative mx-auto grid max-w-7xl px-4 pt-20 pb-16 sm:px-6 lg:grid-cols-12 lg:pt-24">
           <div className="lg:col-span-7">
-            <p className="inline-flex items-center gap-2 rounded-full border border-brand-500/50 bg-brand-500/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-brand-300 uppercase">
-              <MapPin className="h-3.5 w-3.5" />
-              Rustomjee Urbania · Majiwada · Thane West
+            <p className="text-[11px] font-bold tracking-[0.2em] text-gold-400 uppercase sm:text-xs">
+              VK Football Academy — Thane · Ages 5–18
             </p>
-            <h1 className="font-display mt-6 max-w-3xl text-6xl leading-[0.98] font-bold tracking-wide text-white uppercase sm:text-7xl xl:text-8xl">
-              Building Better Players.{' '}
-              <span className="bg-gradient-to-r from-brand-500 via-brand-400 to-gold-400 bg-clip-text text-transparent">
-                Building Better People.
+            <h1 className="font-display mt-6 text-[clamp(4.5rem,15vw,13rem)] leading-[0.88] font-bold tracking-[-0.03em] text-white uppercase">
+              <span className={`mask-line ${ready ? 'ready' : ''}`}>
+                <span style={{ transitionDelay: '0ms' }}>Building</span>
+              </span>
+              <span className={`mask-line ${ready ? 'ready' : ''}`}>
+                <span className="text-outline" style={{ transitionDelay: '90ms' }}>
+                  Better
+                </span>
+              </span>
+              <span className={`mask-line ${ready ? 'ready' : ''}`}>
+                <span className="text-brand-500" style={{ transitionDelay: '180ms' }}>
+                  Players.
+                </span>
               </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300">
-              VK Football Academy develops young footballers from grassroots to
-              youth football — with nationally licensed coaches, structured
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-zinc-300">
+              VK Football Academy develops young footballers from grassroots
+              to youth football — with nationally licensed coaches, structured
               sessions and a clear pathway for every player.
             </p>
-            <p className="font-display mt-5 text-xl font-semibold tracking-[0.25em] text-gold-400 uppercase">
-              Develop. Compete. Excel.
-            </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/programmes"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-xl shadow-brand-500/30 transition hover:bg-brand-600 active:scale-[0.98]"
-              >
-                Explore programmes
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 rounded-xl border border-charcoal-600 bg-charcoal-800/80 px-6 py-3.5 text-sm font-semibold text-zinc-100 backdrop-blur transition hover:border-gold-400/60 hover:bg-charcoal-700 active:scale-[0.98]"
-              >
-                Enquire about trials
-              </Link>
+              <Magnetic>
+                <Link
+                  to="/programmes"
+                  className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-xl shadow-brand-500/30 transition hover:bg-brand-600 active:scale-[0.98]"
+                >
+                  Explore programmes
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Magnetic>
+              <Magnetic>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-xl border border-gold-500/60 bg-gold-500/10 px-6 py-3.5 text-sm font-semibold text-gold-300 transition hover:border-gold-400 hover:bg-gold-500/20 active:scale-[0.98]"
+                >
+                  Book a free trial
+                </Link>
+              </Magnetic>
             </div>
             <ul className="mt-10 flex flex-wrap gap-2.5">
               {[
@@ -136,66 +175,105 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="relative lg:col-span-5">
-            <ThreeStage
-              scene={HeroScene}
-              fallback={<HeroFallback />}
-              label="Interactive 3D football"
-              className="relative h-72 sm:h-96 lg:h-[540px]"
-            />
+          <div className="lg:col-span-5">
+            <Suspense fallback={<BallFallback />}>
+              <ScrollBall />
+            </Suspense>
           </div>
         </div>
+        {/* Scroll cue — desktop only; on mobile the ball is the cue. */}
+        <div
+          className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex"
+          aria-hidden="true"
+        >
+          <span className="text-[10px] font-bold tracking-[0.3em] text-zinc-500 uppercase">
+            Scroll
+          </span>
+          <span className="scroll-cue-line" />
+        </div>
       </section>
 
-      {/* Marquee strip */}
-      <div className="overflow-hidden border-b border-charcoal-800 bg-charcoal-900 py-3.5" aria-hidden="true">
-        <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap">
-          {[...MARQUEE, ...MARQUEE, ...MARQUEE, ...MARQUEE].map((word, i) => (
-            <span key={i} className="flex items-center gap-8">
-              <span className="font-display text-lg font-semibold tracking-[0.25em] text-zinc-500 uppercase">
-                {word}
-              </span>
-              <span className="h-2 w-2 rotate-45 bg-brand-500" />
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Values */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <Reveal>
-          <p className="eyebrow">What we stand for</p>
-          <h2 className="font-display mt-3 text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl">
-            More than football
-          </h2>
-        </Reveal>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {VALUES.map((v, i) => (
-            <Reveal key={v.title} delay={i * 90}>
-              <TiltCard className="h-full">
-                <article className="card card-hover h-full p-7">
-                  <span className="inline-flex rounded-2xl border border-gold-600/40 bg-gold-500/10 p-3.5 text-gold-400">
-                    <v.icon className="h-6 w-6" />
+      {/* Everything below the hero sits in a z-2 wrapper: the travelling
+          ball (z-1) passes behind this content, above the page ground. */}
+      <div className="relative z-[2]">
+        {/* Marquee band — full-bleed, gold on black */}
+        <div
+          className="overflow-hidden bg-black py-4"
+          aria-hidden="true"
+        >
+          <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap">
+            {[...MARQUEE, ...MARQUEE, ...MARQUEE, ...MARQUEE].map(
+              (word, i) => (
+                <span key={i} className="flex items-center gap-8">
+                  <span className="font-display text-xl font-semibold tracking-[0.25em] text-gold-400 uppercase">
+                    {word}
                   </span>
-                  <h3 className="font-display mt-5 text-xl font-semibold tracking-wide text-white uppercase">
-                    {v.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">{v.body}</p>
-                </article>
-              </TiltCard>
-            </Reveal>
-          ))}
+                  <span className="h-2 w-2 rotate-45 bg-brand-500" />
+                </span>
+              ),
+            )}
+          </div>
         </div>
-      </section>
 
-      {/* Age groups */}
-      <section className="border-y border-charcoal-800 bg-charcoal-900">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+        {/* Values — "Why VKFA" */}
+        <section id="why-vkfa" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+          <Reveal>
+            <p className="eyebrow">What we stand for</p>
+            <h2 className="font-display mt-3 text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl">
+              More than football
+            </h2>
+          </Reveal>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {VALUES.map((v, i) => (
+              <Reveal key={v.title} delay={i * 90} className="h-full">
+                <TiltCard className="h-full">
+                  <article className="card card-hover h-full p-7">
+                    <span className="inline-flex rounded-2xl border border-gold-600/40 bg-gold-500/10 p-3.5 text-gold-400">
+                      <v.icon className="h-6 w-6" />
+                    </span>
+                    <h3 className="font-display mt-5 text-xl font-semibold tracking-wide text-white uppercase">
+                      {v.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                      {v.body}
+                    </p>
+                  </article>
+                </TiltCard>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* Stats band — count-up gold numerals (site's own numbers only) */}
+        <section className="border-y border-charcoal-800 bg-charcoal-900">
+          <div className="mx-auto grid max-w-7xl grid-cols-3 gap-6 px-4 py-14 text-center sm:px-6">
+            {[
+              { to: 100, suffix: '+', label: 'Players' },
+              { to: 10, suffix: '+', label: 'Coaches' },
+              { to: 2, suffix: '', label: 'Locations' },
+            ].map((s) => (
+              <div key={s.label}>
+                <p className="font-display text-6xl font-bold text-gold-400 sm:text-7xl">
+                  <CountUp to={s.to} suffix={s.suffix} />
+                </p>
+                <p className="mt-2 text-xs font-semibold tracking-[0.2em] text-zinc-400 uppercase">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Programmes — bento grid (2 large + 2 small frosted-glass tiles) */}
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="eyebrow">Programmes</p>
-                <h2 className="font-display mt-3 text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl">
+                <p className="eyebrow">Programmes · Ages 05–18</p>
+                <h2
+                  id="programmes-heading"
+                  className="font-display mt-3 text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl"
+                >
                   Age-group programmes
                 </h2>
               </div>
@@ -207,98 +285,116 @@ export default function Home() {
               </Link>
             </div>
           </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {AGE_GROUPS.map((a, i) => (
-              <Reveal key={a.group} delay={i * 80}>
+              <Reveal
+                key={a.group}
+                delay={i * 80}
+                className={`h-full ${i === 0 || i === 3 ? 'lg:col-span-2' : ''}`}
+              >
                 <TiltCard className="h-full">
-                  <article className="card card-hover group relative h-full overflow-hidden p-7">
-                    <span
-                      className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 to-gold-400 opacity-0 transition-opacity group-hover:opacity-100"
-                      aria-hidden="true"
-                    />
-                    <p className="font-display text-5xl font-bold text-white transition-colors group-hover:text-brand-500">
+                  <article className="glass-tile group relative h-full overflow-hidden p-7">
+                    <p className="font-display text-6xl leading-none font-bold text-gold-400">
                       {a.group}
                     </p>
-                    <p className="mt-2 inline-flex rounded-full border border-gold-600/50 bg-gold-500/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-widest text-gold-400 uppercase">
-                      {a.tag}
+                    <p className="mt-3 inline-flex rounded-full border border-gold-600/50 bg-gold-500/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-widest text-gold-400 uppercase">
+                      {a.tag} · {a.ages}
                     </p>
-                    <p className="mt-4 text-sm leading-relaxed text-zinc-400">{a.focus}</p>
+                    <p className="mt-4 text-sm leading-relaxed text-zinc-300">
+                      {a.focus}
+                    </p>
                   </article>
                 </TiltCard>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Success story */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <Reveal>
-          <div className="card-gold relative overflow-hidden p-8 sm:p-12">
-            <div className="pitch-lines pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
-            <div className="relative">
-              <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-gold-400 uppercase">
-                <Award className="h-4 w-4" />
-                Academy success story
-              </p>
-              <h2 className="font-display mt-4 max-w-2xl text-3xl leading-tight font-semibold tracking-wide text-white uppercase sm:text-5xl">
-                From Rustomjee Urbania to Madrid, Spain
-              </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-300">
-                VKFA player <strong className="text-white">Sharvil Deorukhkar</strong>{' '}
-                signed for CD Chamartín Vergara Alcobendas, Madrid, and is playing
-                U13 División de Honor Infantil (RFFM) in the 2026/27 season — proof
-                of what the academy's pathway can produce.
-              </p>
-              <Link
-                to="/about"
-                className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-charcoal-950 shadow-lg transition hover:bg-zinc-200 active:scale-[0.98]"
-              >
-                More about the academy <ArrowRight className="h-4 w-4" />
-              </Link>
+        {/* Success story — sticky panel, text scrolls past */}
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-2">
+            <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
+              <Reveal>
+                <p className="eyebrow">Academy success story</p>
+                <h2 className="font-display mt-4 text-4xl leading-[1.02] font-bold tracking-wide text-white uppercase sm:text-6xl">
+                  From Rustomjee Urbania to Madrid, Spain
+                </h2>
+                <p className="mt-6 text-lg leading-relaxed text-zinc-300">
+                  VKFA player{' '}
+                  <strong className="text-white">Sharvil Deorukhkar</strong>{' '}
+                  — the academy’s proof that the pathway works.
+                </p>
+              </Reveal>
+            </div>
+            <div>
+              {STORY_BLOCKS.map((b, i) => (
+                <div
+                  key={i}
+                  className="flex min-h-[70vh] items-center border-b border-charcoal-800/60 py-10 last:border-0"
+                >
+                  <Reveal delay={i * 60}>
+                    <p className="font-display text-6xl font-bold text-gold-400/25">
+                      0{i + 1}
+                    </p>
+                    <p className="mt-4 text-2xl leading-snug font-medium text-zinc-100 sm:text-3xl">
+                      {b}
+                    </p>
+                  </Reveal>
+                </div>
+              ))}
+              <Reveal>
+                <Link
+                  to="/about"
+                  className="mt-2 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-charcoal-950 shadow-lg transition hover:bg-zinc-200 active:scale-[0.98]"
+                >
+                  More about the academy <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Reveal>
             </div>
           </div>
-        </Reveal>
-      </section>
+        </section>
+      </div>
 
-      {/* Coach tools strip */}
-      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
-        <div className="grid gap-5 md:grid-cols-2">
-          <Reveal>
-            <article className="card card-hover h-full p-7">
-              <span className="inline-flex rounded-2xl bg-brand-500/15 p-3.5 text-brand-400">
-                <ClipboardList className="h-6 w-6" />
-              </span>
-              <h3 className="font-display mt-4 text-xl font-semibold tracking-wide text-white uppercase">
-                Session plans, organised
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                Coaches plan every session — objectives, drills, tactics and
-                conditioning — and keep every plan linked to its training session.
-              </p>
-            </article>
-          </Reveal>
-          <Reveal delay={100}>
-            <article className="card card-hover h-full p-7">
-              <span className="inline-flex rounded-2xl bg-brand-500/15 p-3.5 text-brand-400">
-                <Users className="h-6 w-6" />
-              </span>
-              <h3 className="font-display mt-4 text-xl font-semibold tracking-wide text-white uppercase">
-                Attendance, tracked
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                Attendance is marked per session and per player, so coaches and
-                the academy can see who is turning up — and who needs a nudge.
-              </p>
-            </article>
-          </Reveal>
+      {/* Join / trials CTA — one saturated scarlet field, near-black type.
+          The travelling ball returns large behind this text (z-5 stage,
+          z-10 content). */}
+      <section className="relative overflow-hidden bg-brand-500">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32">
+          <p className="text-xs font-bold tracking-[0.25em] text-charcoal-950/70 uppercase">
+            Free trial · Ages 5–18 · Boys &amp; Girls
+          </p>
+          <h2 className="font-display mt-4 text-[clamp(3.5rem,12vw,10rem)] leading-[0.9] font-bold tracking-[-0.02em] text-charcoal-950 uppercase">
+            Book a
+            <br />
+            free trial
+          </h2>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed font-medium text-charcoal-950/80">
+            Call or WhatsApp the academy to book a free trial session at Urban
+            Turf, Rustomjee Urbania.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="tel:+917304666815"
+              className="inline-flex items-center gap-2 rounded-xl bg-charcoal-950 px-6 py-3.5 text-sm font-semibold text-white shadow-xl transition hover:bg-black active:scale-[0.98]"
+            >
+              <Phone className="h-4 w-4" />
+              Call +91 73046 66815
+            </a>
+            <a
+              href="https://wa.me/917304666815"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-charcoal-950 shadow-xl transition hover:bg-zinc-200 active:scale-[0.98]"
+            >
+              <MessageCircle className="h-4 w-4" />
+              WhatsApp the academy
+            </a>
+          </div>
+          <p className="mt-8 text-sm font-medium text-charcoal-950/70">
+            Urban Turf, Rustomjee Urbania, Majiwada, Thane West · Open daily,
+            12:00–8:00 pm
+          </p>
         </div>
-        <p className="mt-10 text-center text-sm text-zinc-500">
-          Are you a VKFA coach or admin?{' '}
-          <Link to="/login" className="font-semibold text-brand-400 hover:text-brand-300">
-            Sign in to the portal →
-          </Link>
-        </p>
       </section>
     </div>
   )

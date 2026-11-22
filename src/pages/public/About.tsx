@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { Award, MapPin, Shield, Target, Trophy, Users } from 'lucide-react'
 import Logo from '../../components/Logo'
-import { Reveal, TiltCard } from '../../components/ui'
+import { Reveal } from '../../components/ui'
 import { ThreeStage } from '../../components/three/ThreeStage'
 
 const Crest3D = lazy(() => import('../../components/three/Crest3D'))
@@ -32,33 +32,37 @@ const PILLARS = [
 export default function About() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <div className="grid items-center gap-10 lg:grid-cols-2">
-        <Reveal>
-          <p className="eyebrow">About the academy</p>
-          <h1 className="font-display mt-3 text-5xl leading-[1.02] font-bold tracking-wide text-white uppercase sm:text-6xl">
-            Developing players, building believers
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-300">
-            VK Football Academy is a professional youth football academy based at
-            Urban Turf, Rustomjee Urbania, Majiwada, Thane West. Founded by{' '}
-            <strong className="text-white">Vaibhav Karpe</strong>, the academy
-            coaches players from grassroots to youth football, with qualified
-            nationally licensed coaches.
-          </p>
-          <ul className="mt-8 flex flex-wrap gap-2.5">
-            {['Ages 5–18', 'Boys & Girls', 'AIFF & AFC Licensed Coaches'].map(
-              (chip) => (
-                <li
-                  key={chip}
-                  className="rounded-full border border-charcoal-700 bg-charcoal-900/80 px-3.5 py-1.5 text-xs font-medium text-zinc-300"
-                >
-                  {chip}
-                </li>
-              ),
-            )}
-          </ul>
-        </Reveal>
-        <Reveal delay={120}>
+      <Reveal>
+        <p className="eyebrow">About the academy</p>
+        <h1 className="font-display mt-3 max-w-3xl text-5xl leading-[1.02] font-bold tracking-wide text-white uppercase sm:text-6xl">
+          Developing players, building believers
+        </h1>
+        <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-300">
+          VK Football Academy is a professional youth football academy based at
+          Urban Turf, Rustomjee Urbania, Majiwada, Thane West. Founded by{' '}
+          <strong className="text-white">Vaibhav Karpe</strong>, the academy
+          coaches players from grassroots to youth football, with qualified
+          nationally licensed coaches.
+        </p>
+        <ul className="mt-8 flex flex-wrap gap-2.5">
+          {['Ages 5–18', 'Boys & Girls', 'AIFF & AFC Licensed Coaches'].map(
+            (chip) => (
+              <li
+                key={chip}
+                className="rounded-full border border-charcoal-700 bg-charcoal-900/80 px-3.5 py-1.5 text-xs font-medium text-zinc-300"
+              >
+                {chip}
+              </li>
+            ),
+          )}
+        </ul>
+      </Reveal>
+
+      {/* Scrollytelling — the 3D crest stays pinned on one side while one
+          idea per screen scrolls past on the other. The crest is
+          interactive (drag to rotate, tap to spin). */}
+      <div className="mt-16 grid gap-10 lg:grid-cols-2">
+        <div className="lg:sticky lg:top-24 lg:self-start">
           <ThreeStage
             scene={Crest3D}
             fallback={
@@ -69,27 +73,32 @@ export default function About() {
               </div>
             }
             label="VK Football Academy crest in 3D"
-            className="relative h-80 sm:h-96 lg:h-[480px]"
+            className="relative h-80 sm:h-96 lg:h-[70vh]"
           />
-        </Reveal>
-      </div>
-
-      <div className="mt-16 grid gap-5 md:grid-cols-2">
-        {PILLARS.map((p, i) => (
-          <Reveal key={p.title} delay={(i % 2) * 90}>
-            <TiltCard className="h-full">
-              <article className="card card-hover h-full p-7">
-                <span className="inline-flex rounded-2xl border border-gold-600/40 bg-gold-500/10 p-3.5 text-gold-400">
+        </div>
+        <div>
+          {PILLARS.map((p, i) => (
+            <div
+              key={p.title}
+              className="flex min-h-[70vh] flex-col justify-center border-b border-charcoal-800/60 py-10 last:border-0"
+            >
+              <Reveal delay={(i % 2) * 90}>
+                <p className="font-display text-6xl font-bold text-gold-400/25">
+                  0{i + 1}
+                </p>
+                <span className="mt-5 inline-flex rounded-2xl border border-gold-600/40 bg-gold-500/10 p-3.5 text-gold-400">
                   <p.icon className="h-6 w-6" />
                 </span>
-                <h2 className="font-display mt-5 text-xl font-semibold tracking-wide text-white uppercase">
+                <h2 className="font-display mt-5 text-2xl font-semibold tracking-wide text-white uppercase sm:text-3xl">
                   {p.title}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">{p.body}</p>
-              </article>
-            </TiltCard>
-          </Reveal>
-        ))}
+                <p className="mt-3 max-w-lg text-base leading-relaxed text-zinc-400">
+                  {p.body}
+                </p>
+              </Reveal>
+            </div>
+          ))}
+        </div>
       </div>
 
       <Reveal>

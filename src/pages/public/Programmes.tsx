@@ -37,7 +37,7 @@ export default function Programmes() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
       <Reveal>
-        <p className="eyebrow">Programmes</p>
+        <p className="eyebrow">Programmes · Ages 05–18</p>
         <h1 className="font-display mt-3 max-w-3xl text-5xl leading-[1.02] font-bold tracking-wide text-white uppercase sm:text-6xl">
           Age-group training, built for each stage
         </h1>
@@ -48,18 +48,19 @@ export default function Programmes() {
         </p>
       </Reveal>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-2">
+      {/* Bento grid — 2 large + 2 small frosted-glass tiles */}
+      <div className="mt-12 grid gap-6 lg:grid-cols-3">
         {PROGRAMMES.map((p, i) => (
-          <Reveal key={p.group} delay={(i % 2) * 90}>
+          <Reveal
+            key={p.group}
+            delay={(i % 2) * 90}
+            className={`h-full ${i === 0 || i === 3 ? 'lg:col-span-2' : ''}`}
+          >
             <TiltCard className="h-full">
-              <article className="card card-hover group relative h-full overflow-hidden p-8">
-                <span
-                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 to-gold-400 opacity-0 transition-opacity group-hover:opacity-100"
-                  aria-hidden="true"
-                />
+              <article className="glass-tile group relative h-full overflow-hidden p-8">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="font-display text-6xl leading-none font-bold text-white transition-colors group-hover:text-brand-500">
+                    <p className="font-display text-6xl leading-none font-bold text-gold-400">
                       {p.group}
                     </p>
                     <p className="mt-2 text-sm font-medium text-zinc-400">{p.ages}</p>

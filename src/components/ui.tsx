@@ -514,11 +514,115 @@ export function Reveal({
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(18px)',
-        transition: `opacity 0.7s cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 0.7s cubic-bezier(0.22,1,0.36,1) ${delay}ms`,
+        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
       }}
     >
       {children}
     </div>
+  )
+}
+
+/* --------------------------- Magnetic buttons ----------------------------- */
+
+/**
+ * Magnetic wrapper for desktop CTAs: the child drifts a few pixels toward
+ * the cursor and springs back on leave. Fine pointers only — inert on
+ * touch and when the user prefers reduced motion.
+ */
+export function Magnetic({
+  children,
+  className = '',
+  strength = 6,
+}: {
+  children: ReactNode
+  className?: string
+  strength?: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current
+    if (!el) return
+    if (
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return
+    }
+    const rect = el.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width - 0.5
+    const py = (e.clientY - rect.top) / rect.height - 0.5
+    el.style.transform = `translate(${px * strength}px, ${py * strength}px)`
+  }
+
+  function onLeave() {
+    const el = ref.current
+    if (el) el.style.transform = ''
+  }
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      className={`inline-block will-change-transform ${className}`}
+      style={{ transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)' }}
+    >
+      {children}
+    </div>
+  )
+}
+
+/* ------------------------------- Count-up --------------------------------- */
+
+/** Number that counts up to `to` once it scrolls into view. */
+export function CountUp({
+  to,
+  suffix = '',
+  duration = 1400,
+  className = '',
+}: {
+  to: number
+  suffix?: string
+  duration?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const started = useRef(false)
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setValue(to)
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting || started.current) return
+        started.current = true
+        const t0 = performance.now()
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - t0) / duration)
+          const eased = 1 - Math.pow(1 - p, 3)
+          setValue(Math.round(to * eased))
+          if (p < 1) requestAnimationFrame(tick)
+        }
+        requestAnimationFrame(tick)
+        io.disconnect()
+      },
+      { threshold: 0.4 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [to, duration])
+
+  return (
+    <span ref={ref} className={className}>
+      {value}
+      {suffix}
+    </span>
   )
 }
 

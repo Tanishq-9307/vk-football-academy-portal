@@ -24,6 +24,8 @@ export default function PublicLayout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-charcoal-950">
+      {/* Film grain over the whole public site — texture, not decoration. */}
+      <div className="grain" aria-hidden="true" />
       <header className="sticky top-0 z-50 border-b border-charcoal-800/80 bg-charcoal-950/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link to="/" onClick={() => setMenuOpen(false)}>
@@ -38,7 +40,7 @@ export default function PublicLayout() {
                 className={({ isActive }) =>
                   `relative rounded-lg px-3.5 py-2 text-sm font-medium transition ${
                     isActive
-                      ? 'text-white after:absolute after:inset-x-3 after:-bottom-[13px] after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-brand-500 after:to-gold-400'
+                      ? 'text-white after:absolute after:inset-x-3 after:-bottom-[13px] after:h-0.5 after:rounded-full after:bg-brand-500'
                       : 'text-zinc-400 hover:text-white'
                   }`
                 }
@@ -105,7 +107,7 @@ export default function PublicLayout() {
       </main>
 
       <footer className="border-t border-charcoal-800 bg-charcoal-900">
-        <div className="h-1 bg-gradient-to-r from-brand-500 via-brand-600 to-gold-400" aria-hidden="true" />
+        <div className="h-1 bg-gold-400" aria-hidden="true" />
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo size={48} withWordmark />

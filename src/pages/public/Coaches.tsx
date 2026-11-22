@@ -21,7 +21,7 @@ export default function Coaches() {
           <TiltCard className="h-full">
             <article className="card-gold relative h-full overflow-hidden p-8">
               <span
-                className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 to-gold-400"
+                className="absolute inset-x-0 top-0 h-1 bg-gold-400"
                 aria-hidden="true"
               />
               <span className="inline-flex rounded-2xl border border-gold-600/40 bg-gold-500/10 p-4 text-gold-400">
