@@ -53,6 +53,15 @@ gsap.registerPlugin(ScrollTrigger)
  *   not a fixed journey fraction, and is clamped into the viewport.
  * - The CTA station sits to the right of the left-aligned text, behind
  *   it (text is z-10) — never on top of the headline or buttons.
+ * - The CTA fade-in is timed from the live DOM (ctaFadeInAt), not a
+ *   fixed fraction: step 03's text bottom sits ~300px above the CTA
+ *   top, so the ball only fades in once that text has cleared the
+ *   viewport — a fixed 0.82 faded it in over the word "pathway".
+ * - The ball rises to z-5 while docked beside the Programmes heading:
+ *   at z-1 it was invisible there (covered by the page wrapper), even
+ *   though the dock position itself is correct — 96px right of the
+ *   heading, vertically centred, below the header.
+ *   it (text is z-10) — never on top of the headline or buttons.
  *
  * The stage is a square sized min(58vh, 42vw). Two layouts via
  * gsap.matchMedia — desktop and mobile. On mobile the hero stacks: the
@@ -123,6 +132,23 @@ export default function ScrollBall() {
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia()
+      // Scroll position where the Sharvil story has fully cleared the
+      // viewport, as a timeline fraction. Step 03's text bottom sits
+      // ~300px above the CTA section's top; the fade must not start
+      // until that text is above the viewport top, or the ball fades in
+      // over it (seen live: its dim edge sat behind "pathway").
+      // Computed from the live DOM so it tracks the real layout;
+      // clamped so the ball still gets a visible window at the CTA.
+      const ctaFadeInAt = () => {
+        const cta = document.querySelector(
+          '#home-root section.bg-brand-500',
+        )
+        const max =
+          document.documentElement.scrollHeight - window.innerHeight
+        if (!cta || max <= 0) return 0.92
+        const top = cta.getBoundingClientRect().top + window.scrollY
+        return Math.min(0.94, Math.max(0.88, (top + 300) / max))
+      }
       const setProgress = (p: number) => {
         // Drives the ball's in-scene rotation + camera pull-in (scrollRig).
         state.scroll = p
@@ -175,6 +201,7 @@ export default function ScrollBall() {
             ),
           }
         }
+        const fadeIn = ctaFadeInAt()
         const tl = gsap.timeline({
           scrollTrigger: {
             id: 'vkfa-journey',
@@ -248,6 +275,14 @@ export default function ScrollBall() {
             },
             0.32,
           )
+          // Docked = in front (z-5): at z-1 the ball was invisible
+          // here, covered by the page wrapper, even though the dock
+          // position is correct (96px right of the heading, vertically
+          // centred, below the header). The dock sits in empty space,
+          // so in front it covers no text. Back to z-1 once it has
+          // faded out (0.50) and is travelling invisible.
+          .set(stage, { zIndex: 5 }, 0.32)
+          .set(stage, { zIndex: 1 }, 0.5)
           // Sharvil transit: the ball fades OUT as it leaves the dock
           // and stays invisible while the story section passes, then
           // travels (still invisible) to the CTA and fades back in
@@ -295,18 +330,24 @@ export default function ScrollBall() {
           )
           // CTA: fade back in AT the station, to the right of the
           // left-aligned text, behind it (the CTA text is z-10) —
-          // never on top of the headline or the buttons.
+          // never on top of the headline or the buttons. The start is
+          // DOM-measured (ctaFadeInAt), not a fixed fraction — a fixed
+          // 0.82 faded the ball in while step 03 was still on screen.
           .to(
             stage,
             {
               opacity: 1,
-              duration: 0.06,
+              duration: 0.04,
               ease: 'none',
             },
-            0.82,
+            fadeIn,
           )
-          .set(stage, { zIndex: 5 }, 0.88)
-          .to(stage, { opacity: 0, duration: 0.03, ease: 'none' }, 0.97)
+          .set(stage, { zIndex: 5 }, fadeIn + 0.04)
+          .to(
+            stage,
+            { opacity: 0, duration: 0.01, ease: 'none' },
+            Math.min(0.99, fadeIn + 0.08),
+          )
       })
 
       mm.add('(max-width: 1023px)', () => {
@@ -325,6 +366,7 @@ export default function ScrollBall() {
           const r = slot.getBoundingClientRect()
           return r.top + window.scrollY + r.height / 2 - size() / 2
         }
+        const fadeIn = ctaFadeInAt()
         const tl = gsap.timeline({
           scrollTrigger: {
             id: 'vkfa-journey',
@@ -384,6 +426,11 @@ export default function ScrollBall() {
             },
             0.35,
           )
+          // Docked = in front (z-5), same as desktop: at z-1 the ball
+          // can be covered by the page wrapper. Back to z-1 once it
+          // has faded out (0.54) and is travelling invisible.
+          .set(stage, { zIndex: 5 }, 0.35)
+          .set(stage, { zIndex: 1 }, 0.54)
           // Sharvil transit (mobile): same invisible transit as
           // desktop — the ball fades out, the story passes, and it
           // fades back in at the CTA. A visible ball cannot cross the
@@ -426,18 +473,23 @@ export default function ScrollBall() {
             0.7,
           )
           // CTA on mobile: fade back in AT the station — small,
-          // bottom-centre, behind the text.
+          // bottom-centre, behind the text. Start is DOM-measured
+          // (ctaFadeInAt), same as desktop.
           .to(
             stage,
             {
               opacity: 1,
-              duration: 0.05,
+              duration: 0.04,
               ease: 'none',
             },
-            0.87,
+            fadeIn,
           )
-          .set(stage, { zIndex: 5 }, 0.92)
-          .to(stage, { opacity: 0, duration: 0.03, ease: 'none' }, 0.97)
+          .set(stage, { zIndex: 5 }, fadeIn + 0.04)
+          .to(
+            stage,
+            { opacity: 0, duration: 0.01, ease: 'none' },
+            Math.min(0.99, fadeIn + 0.08),
+          )
       })
 
       // Re-measure the journey once the display fonts settle (headline
