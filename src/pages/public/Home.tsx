@@ -116,11 +116,13 @@ export default function Home() {
           mobile it stacks below the headline in the reserved slot. */}
       <section className="relative min-h-svh overflow-hidden">
         <div className="relative mx-auto grid max-w-7xl px-4 pt-20 pb-16 sm:px-6 lg:grid-cols-12 lg:pt-24">
-          <div className="lg:col-span-7">
+          {/* z-2: the ball is z-5 in front of the type at rest, and drops
+              to z-1 (behind this text) as soon as scrolling starts. */}
+          <div className="relative z-[2] lg:col-span-8">
             <p className="text-[11px] font-bold tracking-[0.2em] text-gold-400 uppercase sm:text-xs">
               VK Football Academy — Thane · Ages 5–18
             </p>
-            <h1 className="font-display mt-6 text-[clamp(4.5rem,15vw,13rem)] leading-[0.88] font-bold tracking-[-0.03em] text-white uppercase">
+            <h1 className="font-display mt-6 text-[clamp(3.75rem,10.5vw,10rem)] leading-[0.88] font-bold tracking-[-0.03em] text-white uppercase">
               <span className={`mask-line ${ready ? 'ready' : ''}`}>
                 <span style={{ transitionDelay: '0ms' }}>Building</span>
               </span>
@@ -175,7 +177,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-4">
             <Suspense fallback={<BallFallback />}>
               <ScrollBall />
             </Suspense>
@@ -216,7 +218,7 @@ export default function Home() {
         </div>
 
         {/* Values — "Why VKFA" */}
-        <section id="why-vkfa" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+        <section id="why-vkfa" className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
           <Reveal>
             <p className="eyebrow">What we stand for</p>
             <h2 className="font-display mt-3 text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl">
@@ -265,7 +267,7 @@ export default function Home() {
         </section>
 
         {/* Programmes — bento grid (2 large + 2 small frosted-glass tiles) */}
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -311,9 +313,9 @@ export default function Home() {
         </section>
 
         {/* Success story — sticky panel, text scrolls past */}
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
           <div className="grid gap-10 lg:grid-cols-2">
-            <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
+            <div className="lg:sticky lg:top-28 lg:self-start">
               <Reveal>
                 <p className="eyebrow">Academy success story</p>
                 <h2 className="font-display mt-4 text-4xl leading-[1.02] font-bold tracking-wide text-white uppercase sm:text-6xl">
@@ -330,7 +332,7 @@ export default function Home() {
               {STORY_BLOCKS.map((b, i) => (
                 <div
                   key={i}
-                  className="flex min-h-[70vh] items-center border-b border-charcoal-800/60 py-10 last:border-0"
+                  className="flex min-h-[55vh] items-center border-b border-charcoal-800/60 py-10 last:border-0"
                 >
                   <Reveal delay={i * 60}>
                     <p className="font-display text-6xl font-bold text-gold-400/25">
@@ -359,7 +361,7 @@ export default function Home() {
           The travelling ball returns large behind this text (z-5 stage,
           z-10 content). */}
       <section className="relative overflow-hidden bg-brand-500">
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
           <p className="text-xs font-bold tracking-[0.25em] text-charcoal-950/70 uppercase">
             Free trial · Ages 5–18 · Boys &amp; Girls
           </p>

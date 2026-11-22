@@ -61,8 +61,8 @@ export default function About() {
       {/* Scrollytelling — the 3D crest stays pinned on one side while one
           idea per screen scrolls past on the other. The crest is
           interactive (drag to rotate, tap to spin). */}
-      <div className="mt-16 grid gap-10 lg:grid-cols-2">
-        <div className="lg:sticky lg:top-24 lg:self-start">
+      <div className="mt-12 grid gap-10 lg:grid-cols-2">
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <ThreeStage
             scene={Crest3D}
             fallback={
@@ -73,14 +73,14 @@ export default function About() {
               </div>
             }
             label="VK Football Academy crest in 3D"
-            className="relative h-80 sm:h-96 lg:h-[70vh]"
+            className="relative h-80 sm:h-96 lg:h-[62vh]"
           />
         </div>
         <div>
           {PILLARS.map((p, i) => (
             <div
               key={p.title}
-              className="flex min-h-[70vh] flex-col justify-center border-b border-charcoal-800/60 py-10 last:border-0"
+              className="flex min-h-[55vh] flex-col justify-center border-b border-charcoal-800/60 py-10 last:border-0"
             >
               <Reveal delay={(i % 2) * 90}>
                 <p className="font-display text-6xl font-bold text-gold-400/25">
@@ -102,7 +102,7 @@ export default function About() {
       </div>
 
       <Reveal>
-        <section className="card mt-12 p-8 sm:p-10">
+        <section className="card mt-10 p-8 sm:p-10">
           <p className="eyebrow">Our values</p>
           <h2 className="font-display mt-3 text-2xl font-semibold tracking-wide text-white uppercase sm:text-3xl">
             What we stand for

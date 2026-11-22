@@ -68,8 +68,9 @@ function CrestModel({ interaction }: { interaction?: InteractionState }) {
       stepInteraction(interaction, dt)
       rotY += interaction.rotY
     }
-    // Hover tilt (mouse only) — eases to zero while dragging.
-    const targetX = interaction?.dragging ? 0 : pointer.current.y * 0.12
+    // Hover tilt (mouse only) — halved so the crest can never tilt its
+    // top out of frame; the model already fills most of the view.
+    const targetX = interaction?.dragging ? 0 : pointer.current.y * 0.06
     tilt.current.x = THREE.MathUtils.lerp(tilt.current.x, targetX, 0.05)
     g.rotation.y = rotY
     g.rotation.x = tilt.current.x
@@ -77,7 +78,7 @@ function CrestModel({ interaction }: { interaction?: InteractionState }) {
   })
 
   return (
-    <group ref={group}>
+    <group ref={group} scale={0.9}>
       {/* Gold back shield */}
       <mesh position={[0, 0, -0.28]}>
         <extrudeGeometry args={[shape, extrude]} />
@@ -158,7 +159,7 @@ export default function Crest3D() {
         dpr={[1, 1.75]}
         frameloop={frameloop}
         performance={{ min: 0.5 }}
-        camera={{ position: [0, 0.2, 8.5], fov: 36 }}
+        camera={{ position: [0, 0.2, 10], fov: 36 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent', pointerEvents: 'none' }}
       >
