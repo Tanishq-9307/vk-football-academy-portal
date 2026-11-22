@@ -44,7 +44,7 @@ gsap.registerPlugin(ScrollTrigger)
  *   the text: a visible ball cannot cross the Sharvil story section
  *   without passing over its text, and even behind the text (z-1) its
  *   white surface sits behind white glyphs and makes the words
- *   unreadable. So it fades out as it leaves the dock, travels
+ *   unreadable. So it fades out IN PLACE at the dock, travels
  *   invisible while the story passes, and fades back in AT the CTA
  *   station. The z-index only rises back to 5 after it has arrived
  *   (0.88 desktop / 0.92 mobile) — never while it is over the story.
@@ -57,6 +57,17 @@ gsap.registerPlugin(ScrollTrigger)
  *   fixed fraction: step 03's text bottom sits ~300px above the CTA
  *   top, so the ball only fades in once that text has cleared the
  *   viewport — a fixed 0.82 faded it in over the word "pathway".
+ * - The story fade-out is likewise DOM-measured (storyFadeOutAt):
+ *   the fade starts one fade-duration + a margin before the Sharvil
+ *   heading reaches 45% viewport height, so the ball is already
+ *   invisible long before any story text can reach its fixed
+ *   position — the old fixed 0.44 start left it docked/visible
+ *   through the heading and step 01 (seen live). Triggering on
+ *   viewport-bottom entry gave no dock hold at all, so the trigger
+ *   is 45% vh: the dock gets a real hold while the heading is still
+ *   in the lower half of the viewport. It fades in place at the
+ *   dock: the old fade also travelled down-right while fading and
+ *   briefly crossed the U18 pill.
  * - The ball rises to z-5 while docked beside the Programmes heading:
  *   at z-1 it was invisible there (covered by the page wrapper), even
  *   though the dock position itself is correct — 96px right of the
@@ -149,6 +160,41 @@ export default function ScrollBall() {
         const top = cta.getBoundingClientRect().top + window.scrollY
         return Math.min(0.94, Math.max(0.88, (top + 300) / max))
       }
+      // Scroll position where the Sharvil story heading reaches 45%
+      // viewport height, as a timeline fraction. The ball must be
+      // invisible before any story text can reach its fixed position
+      // (about y≈245 at a 998px viewport): the steps sit ~150px below
+      // the heading, so while the heading is in the lower half of the
+      // viewport no story text is anywhere near the ball. The fade
+      // starts one fade-duration + a small margin before the heading
+      // reaches 45% vh, so opacity hits 0 at that point. Triggering
+      // on viewport-bottom entry (the previous version) gave no dock
+      // hold at all — the heading is already on screen near the
+      // viewport bottom at the moment the ball docks beside the
+      // Programmes heading. Computed from the live DOM so it tracks
+      // the real layout; clamped so the dock still gets a visible hold
+      // (never before the dock arrival) and never later than 0.55 —
+      // still well before the CTA fade-in (~0.88).
+      const storyFadeOutAt = (fadeDuration: number, floor: number) => {
+        const max =
+          document.documentElement.scrollHeight - window.innerHeight
+        if (max <= 0) return 0.38
+        const story = Array.from(
+          document.querySelectorAll('#home-root section'),
+        ).find((s) =>
+          (s.textContent ?? '').includes('From Rustomjee Urbania'),
+        )
+        if (!story) return 0.38
+        const top = story.getBoundingClientRect().top + window.scrollY
+        // Heading top edge: section top + py-16 (64px) + eyebrow
+        // (~20px) + mt-4 (16px) ≈ 100px below the section top.
+        const headingAt45vh =
+          (top + 100 - 0.45 * window.innerHeight) / max
+        return Math.min(
+          0.55,
+          Math.max(floor, headingAt45vh - fadeDuration - 0.01),
+        )
+      }
       const setProgress = (p: number) => {
         // Drives the ball's in-scene rotation + camera pull-in (scrollRig).
         state.scroll = p
@@ -202,6 +248,7 @@ export default function ScrollBall() {
           }
         }
         const fadeIn = ctaFadeInAt()
+        const fadeOut = storyFadeOutAt(0.03, 0.32)
         const tl = gsap.timeline({
           scrollTrigger: {
             id: 'vkfa-journey',
@@ -264,13 +311,17 @@ export default function ScrollBall() {
             0.18,
           )
           // Hold the dock while the reader is on the programmes section.
+          // The hold ends when the fade-out starts (DOM-measured, see
+          // storyFadeOutAt) — the trigger is the story heading
+          // reaching 45% viewport height, so the hold is roughly
+          // 400–500px of scroll.
           .to(
             stage,
             {
               x: () => dock().x,
               y: () => dock().y,
               scale: 0.24,
-              duration: 0.12,
+              duration: Math.max(0.001, fadeOut - 0.32),
               ease: 'none',
             },
             0.32,
@@ -280,30 +331,38 @@ export default function ScrollBall() {
           // position is correct (96px right of the heading, vertically
           // centred, below the header). The dock sits in empty space,
           // so in front it covers no text. Back to z-1 once it has
-          // faded out (0.50) and is travelling invisible.
+          // faded out and is travelling invisible.
           .set(stage, { zIndex: 5 }, 0.32)
-          .set(stage, { zIndex: 1 }, 0.5)
-          // Sharvil transit: the ball fades OUT as it leaves the dock
+          .set(stage, { zIndex: 1 }, fadeOut + 0.03)
+          // Sharvil transit: the ball fades OUT IN PLACE at the dock
           // and stays invisible while the story section passes, then
           // travels (still invisible) to the CTA and fades back in
-          // there. A visible ball cannot cross this stretch without
-          // passing over the story text — even behind it (z-1), its
-          // white surface sits behind white glyphs and makes the words
-          // unreadable — so the transit is invisible by design. The
-          // dock and CTA stations are unchanged.
+          // there. The fade starts one fade-duration + a margin before
+          // the story heading reaches 45% viewport height
+          // (storyFadeOutAt) — the old fixed 0.44 start left the ball
+          // docked/visible while the heading and step 01 were on
+          // screen. Fading in place (no down-right travel while
+          // fading) also keeps it off the U18 pill, which the old
+          // travelling fade briefly crossed. A visible ball cannot
+          // cross this stretch without passing over the story text —
+          // even behind it (z-1), its white surface sits behind white
+          // glyphs and makes the words unreadable — so the transit is
+          // invisible by design. The dock and CTA stations are
+          // unchanged.
           .to(
             stage,
             {
-              x: () => centerX(0.65),
-              y: () => centerY(0.55),
-              scale: 0.18,
+              x: () => dock().x,
+              y: () => dock().y,
+              scale: 0.24,
               opacity: 0,
-              duration: 0.06,
+              duration: 0.03,
               ease: 'none',
             },
-            0.44,
+            fadeOut,
           )
-          // Hold invisible while the Sharvil section scrolls past.
+          // Hold invisible while the Sharvil section scrolls past —
+          // the (invisible) move to the transit station happens here.
           .to(
             stage,
             {
@@ -311,10 +370,10 @@ export default function ScrollBall() {
               y: () => centerY(0.55),
               scale: 0.18,
               opacity: 0,
-              duration: 0.18,
+              duration: 0.68 - (fadeOut + 0.03),
               ease: 'none',
             },
-            0.5,
+            fadeOut + 0.03,
           )
           // Travel to the CTA while still invisible.
           .to(
@@ -367,6 +426,7 @@ export default function ScrollBall() {
           return r.top + window.scrollY + r.height / 2 - size() / 2
         }
         const fadeIn = ctaFadeInAt()
+        const fadeOut = storyFadeOutAt(0.05, 0.35)
         const tl = gsap.timeline({
           scrollTrigger: {
             id: 'vkfa-journey',
@@ -414,40 +474,46 @@ export default function ScrollBall() {
             0.2,
           )
           // Hold the small top-right marker while the reader is on the
-          // programmes section.
+          // programmes section. The hold ends when the fade-out starts
+          // (DOM-measured, see storyFadeOutAt).
           .to(
             stage,
             {
               x: () => centerX(0.86),
               y: () => centerY(0.12),
               scale: 0.22,
-              duration: 0.12,
+              duration: Math.max(0.001, fadeOut - 0.35),
               ease: 'none',
             },
             0.35,
           )
           // Docked = in front (z-5), same as desktop: at z-1 the ball
           // can be covered by the page wrapper. Back to z-1 once it
-          // has faded out (0.54) and is travelling invisible.
+          // has faded out and is travelling invisible.
           .set(stage, { zIndex: 5 }, 0.35)
-          .set(stage, { zIndex: 1 }, 0.54)
+          .set(stage, { zIndex: 1 }, fadeOut + 0.05)
           // Sharvil transit (mobile): same invisible transit as
-          // desktop — the ball fades out, the story passes, and it
-          // fades back in at the CTA. A visible ball cannot cross the
-          // full-width stacked story text without covering it.
+          // desktop — the ball fades out IN PLACE at the dock (no
+          // travel while fading, so it never crosses the programmes
+          // cards), the story passes, and it fades back in at the CTA.
+          // The fade starts one fade-duration + a margin before the
+          // story heading reaches 45% viewport height (storyFadeOutAt).
+          // A visible ball cannot cross the full-width stacked story
+          // text without covering it.
           .to(
             stage,
             {
-              x: () => centerX(0.5),
-              y: () => centerY(0.5),
-              scale: 0.18,
+              x: () => centerX(0.86),
+              y: () => centerY(0.12),
+              scale: 0.22,
               opacity: 0,
-              duration: 0.07,
+              duration: 0.05,
               ease: 'none',
             },
-            0.47,
+            fadeOut,
           )
-          // Hold invisible while the Sharvil section scrolls past.
+          // Hold invisible while the Sharvil section scrolls past —
+          // the (invisible) move to the transit station happens here.
           .to(
             stage,
             {
@@ -455,10 +521,10 @@ export default function ScrollBall() {
               y: () => centerY(0.5),
               scale: 0.18,
               opacity: 0,
-              duration: 0.16,
+              duration: 0.7 - (fadeOut + 0.05),
               ease: 'none',
             },
-            0.54,
+            fadeOut + 0.05,
           )
           // Travel to the CTA while still invisible.
           .to(
