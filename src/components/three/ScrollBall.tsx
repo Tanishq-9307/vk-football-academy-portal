@@ -18,8 +18,9 @@ gsap.registerPlugin(ScrollTrigger)
  *
  *   hero (large, right of the headline) → drifts to the side as the
  *   "Why VKFA" text arrives → shrinks and docks beside the Programmes
- *   heading → returns large at the scarlet trial CTA, to the right of
- *   the text → fades out over the footer.
+ *   heading → fades OUT and travels invisibly past the Sharvil story
+ *   section → fades back in large at the scarlet trial CTA, to the
+ *   right of the text → fades out over the footer.
  *
  * Scroll drives the motion (GSAP ScrollTrigger, scrub) — no fixed on-load
  * timeline. The ball stays fully interactive the whole way: drag (mouse
@@ -39,6 +40,14 @@ gsap.registerPlugin(ScrollTrigger)
  *   starts (timeline time 0.02) — it must never pass OVER readable
  *   text. The hero text column is z-2, so the ball is in front of the
  *   type at rest and behind it once the scroll begins.
+ * - The dock → CTA transit is INVISIBLE (opacity 0), not just behind
+ *   the text: a visible ball cannot cross the Sharvil story section
+ *   without passing over its text, and even behind the text (z-1) its
+ *   white surface sits behind white glyphs and makes the words
+ *   unreadable. So it fades out as it leaves the dock, travels
+ *   invisible while the story passes, and fades back in AT the CTA
+ *   station. The z-index only rises back to 5 after it has arrived
+ *   (0.88 desktop / 0.92 mobile) — never while it is over the story.
  * - The dock is computed for the scroll position where the Programmes
  *   heading is actually in view (its centre at 30% viewport height),
  *   not a fixed journey fraction, and is clamped into the viewport.
@@ -201,12 +210,16 @@ export default function ScrollBall() {
           // column is z-2, so the ball is in front of the type at rest
           // and behind it once the scroll begins.)
           .set(stage, { zIndex: 1 }, 0.02)
+          // Drift to the side for the values section — far left and
+          // small, so it stays clear of the "MORE THAN FOOTBALL"
+          // heading and eyebrow (the content starts at the max-w-7xl
+          // edge; at 1920px this station ends ~80px short of it).
           .to(
             stage,
             {
-              x: () => centerX(0.1),
+              x: () => centerX(0.06),
               y: () => centerY(0.58),
-              scale: 0.55,
+              scale: 0.42,
               duration: 0.18,
               ease: 'none',
             },
@@ -235,32 +248,64 @@ export default function ScrollBall() {
             },
             0.32,
           )
+          // Sharvil transit: the ball fades OUT as it leaves the dock
+          // and stays invisible while the story section passes, then
+          // travels (still invisible) to the CTA and fades back in
+          // there. A visible ball cannot cross this stretch without
+          // passing over the story text — even behind it (z-1), its
+          // white surface sits behind white glyphs and makes the words
+          // unreadable — so the transit is invisible by design. The
+          // dock and CTA stations are unchanged.
           .to(
             stage,
             {
-              x: () => centerX(0.1),
+              x: () => centerX(0.65),
               y: () => centerY(0.55),
-              scale: 0.5,
-              duration: 0.13,
+              scale: 0.18,
+              opacity: 0,
+              duration: 0.06,
               ease: 'none',
             },
             0.44,
           )
-          // CTA: to the right of the left-aligned text, behind it
-          // (the CTA text is z-10) — never on top of the headline or
-          // the buttons.
+          // Hold invisible while the Sharvil section scrolls past.
+          .to(
+            stage,
+            {
+              x: () => centerX(0.65),
+              y: () => centerY(0.55),
+              scale: 0.18,
+              opacity: 0,
+              duration: 0.18,
+              ease: 'none',
+            },
+            0.5,
+          )
+          // Travel to the CTA while still invisible.
           .to(
             stage,
             {
               x: () => centerX(0.78),
               y: () => centerY(0.5),
               scale: 0.85,
-              duration: 0.25,
+              duration: 0.14,
               ease: 'none',
             },
-            0.57,
+            0.68,
           )
-          .set(stage, { zIndex: 5 }, 0.78)
+          // CTA: fade back in AT the station, to the right of the
+          // left-aligned text, behind it (the CTA text is z-10) —
+          // never on top of the headline or the buttons.
+          .to(
+            stage,
+            {
+              opacity: 1,
+              duration: 0.06,
+              ease: 'none',
+            },
+            0.82,
+          )
+          .set(stage, { zIndex: 5 }, 0.88)
           .to(stage, { opacity: 0, duration: 0.03, ease: 'none' }, 0.97)
       })
 
@@ -339,30 +384,59 @@ export default function ScrollBall() {
             },
             0.35,
           )
+          // Sharvil transit (mobile): same invisible transit as
+          // desktop — the ball fades out, the story passes, and it
+          // fades back in at the CTA. A visible ball cannot cross the
+          // full-width stacked story text without covering it.
           .to(
             stage,
             {
               x: () => centerX(0.5),
-              y: () => centerY(0.8),
-              scale: 0.5,
-              duration: 0.15,
+              y: () => centerY(0.5),
+              scale: 0.18,
+              opacity: 0,
+              duration: 0.07,
               ease: 'none',
             },
             0.47,
           )
-          // CTA on mobile: small, bottom-centre, behind the text.
+          // Hold invisible while the Sharvil section scrolls past.
+          .to(
+            stage,
+            {
+              x: () => centerX(0.5),
+              y: () => centerY(0.5),
+              scale: 0.18,
+              opacity: 0,
+              duration: 0.16,
+              ease: 'none',
+            },
+            0.54,
+          )
+          // Travel to the CTA while still invisible.
           .to(
             stage,
             {
               x: () => centerX(0.5),
               y: () => centerY(0.8),
               scale: 0.55,
-              duration: 0.25,
+              duration: 0.17,
               ease: 'none',
             },
-            0.62,
+            0.7,
           )
-          .set(stage, { zIndex: 5 }, 0.78)
+          // CTA on mobile: fade back in AT the station — small,
+          // bottom-centre, behind the text.
+          .to(
+            stage,
+            {
+              opacity: 1,
+              duration: 0.05,
+              ease: 'none',
+            },
+            0.87,
+          )
+          .set(stage, { zIndex: 5 }, 0.92)
           .to(stage, { opacity: 0, duration: 0.03, ease: 'none' }, 0.97)
       })
 
